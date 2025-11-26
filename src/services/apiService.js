@@ -2,7 +2,7 @@
 // Permet de développer avec des données mockées puis de basculer vers l'API réelle
 
 const API_BASE_URL = 'http://localhost:8000/api';
-const USE_MOCK_DATA = true; // Basculer à false pour utiliser la vraie API
+let USE_MOCK_DATA = true; // Changé de const à let pour permettre la modification
 
 // Import des données mockées
 import { 
