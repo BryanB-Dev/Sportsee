@@ -113,33 +113,3 @@
 .logoutButton:hover {
   color: #0A1FD1;
 }
-
-/* Responsive */
-@media (max-width: 768px) {
-  .headerContainer {
-    flex-direction: column;
-    padding: 0 1rem;
-    height: auto;
-    gap: 1rem;
-  }
-  
-  .navigation {
-    width: 100%;
-    max-width: 500px;
-  }
-  
-  .navContent {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  
-  .navLinks {
-    border-right: none;
-    padding-right: 0;
-  }
-  
-  .navLink,
-  .logoutButton {
-    font-size: 16px;
-  }
-}

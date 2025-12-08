@@ -145,64 +145,66 @@ export default function PerformanceBarChart({
           </div>
           <p className={styles.subtitle}>Total des kilomètres des 4 dernières semaines</p>
           <div className={styles.chartOffset}>
-            <BarChart width={370} height={325} data={data} margin={{ top: 10, right: 0, left: 0, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f1f1f1" horizontal={true} vertical={false} />
-              <XAxis 
-                dataKey="day" 
-                orientation="bottom" 
-                dy={10} 
-                tickLine={false} 
-                tick={{fontSize:12}}
-              />
-              <YAxis 
-                tickLine={false} 
-                domain={[0, actualMaxScale]} 
-                ticks={ticks} 
-                tick={{fontSize:10}}
-              />
-              <Tooltip 
-                content={({ active, payload, label }) => {
-                  if (active && payload && payload.length) {
-                    // Calculer les dates de la semaine pour ce point
-                    const weekIndex = data.findIndex(d => d.day === label);
-                    const weekStartDate = addDays(startDate, weekIndex * 7);
-                    const weekEndDate = addDays(weekStartDate, 6);
-                    
-                    const formatTooltipDate = (date) => {
-                      const day = String(date.getDate()).padStart(2, '0');
-                      const month = String(date.getMonth() + 1).padStart(2, '0');
-                      return `${day}.${month}`;
-                    };
+            <ResponsiveContainer width="85%" height={325}>
+              <BarChart data={data} margin={{ top: 10, right: 0, left: 0, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#f1f1f1" horizontal={true} vertical={false} />
+                <XAxis 
+                  dataKey="day" 
+                  orientation="bottom" 
+                  dy={10} 
+                  tickLine={false} 
+                  tick={{fontSize:12}}
+                />
+                <YAxis 
+                  tickLine={false} 
+                  domain={[0, actualMaxScale]} 
+                  ticks={ticks} 
+                  tick={{fontSize:10}}
+                />
+                <Tooltip 
+                  content={({ active, payload, label }) => {
+                    if (active && payload && payload.length) {
+                      // Calculer les dates de la semaine pour ce point
+                      const weekIndex = data.findIndex(d => d.day === label);
+                      const weekStartDate = addDays(startDate, weekIndex * 7);
+                      const weekEndDate = addDays(weekStartDate, 6);
+                      
+                      const formatTooltipDate = (date) => {
+                        const day = String(date.getDate()).padStart(2, '0');
+                        const month = String(date.getMonth() + 1).padStart(2, '0');
+                        return `${day}.${month}`;
+                      };
 
-                    return (
-                      <div className={styles.tooltip}>
-                        <div className={styles.tooltipDate}>
-                          {formatTooltipDate(weekStartDate)} - {formatTooltipDate(weekEndDate)}
+                      return (
+                        <div className={styles.tooltip}>
+                          <div className={styles.tooltipDate}>
+                            {formatTooltipDate(weekStartDate)} - {formatTooltipDate(weekEndDate)}
+                          </div>
+                          <div className={styles.tooltipValue}>
+                            {payload[0].value} km
+                          </div>
                         </div>
-                        <div className={styles.tooltipValue}>
-                          {payload[0].value} km
-                        </div>
-                      </div>
-                    );
-                  }
-                  return null;
-                }}
-              />
-              <Legend 
-                iconType="circle" 
-                iconSize={8} 
-                align="left" 
-                formatter={(value) => <span className={styles.legendLabel}>{value}</span>}  
-                content={renderLegend}
-              />
-              <Bar 
-                dataKey="value" 
-                name="Km" 
-                fill={isHovered ? "#0B23F4" : "#b6bdfc"} 
-                radius={30} 
-                barSize={14}
-              />
-            </BarChart>
+                      );
+                    }
+                    return null;
+                  }}
+                />
+                <Legend 
+                  iconType="circle" 
+                  iconSize={8} 
+                  align="left" 
+                  formatter={(value) => <span className={styles.legendLabel}>{value}</span>}  
+                  content={renderLegend}
+                />
+                <Bar 
+                  dataKey="value" 
+                  name="Km" 
+                  fill={isHovered ? "#0B23F4" : "#b6bdfc"} 
+                  radius={30} 
+                  barSize={14}
+                />
+              </BarChart>
+            </ResponsiveContainer>
           </div>
         </div>
       </section>
@@ -262,55 +264,57 @@ export default function PerformanceBarChart({
           </div>
           <p className={styles.subtitle}>Fréquence cardiaque moyenne</p>
           <div className={styles.chartOffset}>
-            <ComposedChart width={540} height={325} data={data} margin={{ top: 10, right: 0, left: 0, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f1f1f1" horizontal={true} vertical={false} />
-              <XAxis 
-              dataKey="day" 
-              orientation="bottom" 
-              dy={10} 
-              tickLine={false} 
-              tick={{fontSize:12}}
-              axisLine={true}
-            />
-            <YAxis 
-              tickLine={false} 
-              domain={[minBpmScale, actualMaxBpmScale]} 
-              ticks={bpmTicks} 
-              tick={{fontSize:10}}
-            />
-            <Tooltip content={() => null} />
-            <Legend 
-              iconType="circle" 
-              iconSize={8} 
-              align="left" 
-              formatter={(value) => <span className={styles.legendLabel}>{value}</span>}  
-              content={renderLegend}
-            />
-            <Bar 
-              dataKey="min" 
-              name="Min" 
-              fill="#fcc1b6" 
-              radius={30} 
-              barSize={14}
-            />
-            <Bar 
-              dataKey="max" 
-              name="Max BPM" 
-              fill="#f4320b" 
-              radius={30} 
-              barSize={14}
-            />
-            <Line 
-              type="monotone" 
-              dataKey="average" 
-              stroke={isHovered ? "#0b23f4" : "#f2f3ff"} 
-              strokeWidth={2}
-              dot={{ r: 4, fill: "#0b23f4" }}
-              name="Moyenne BPM"
-              connectNulls={false}
-              offset={7}
-            />
-            </ComposedChart>
+            <ResponsiveContainer width="85%" height={325}>
+              <ComposedChart data={data} margin={{ top: 10, right: 0, left: 0, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#f1f1f1" horizontal={true} vertical={false} />
+                <XAxis 
+                dataKey="day" 
+                orientation="bottom" 
+                dy={10} 
+                tickLine={false} 
+                tick={{fontSize:12}}
+                axisLine={true}
+              />
+              <YAxis 
+                tickLine={false} 
+                domain={[minBpmScale, actualMaxBpmScale]} 
+                ticks={bpmTicks} 
+                tick={{fontSize:10}}
+              />
+              <Tooltip content={() => null} />
+              <Legend 
+                iconType="circle" 
+                iconSize={8} 
+                align="left" 
+                formatter={(value) => <span className={styles.legendLabel}>{value}</span>}  
+                content={renderLegend}
+              />
+              <Bar 
+                dataKey="min" 
+                name="Min" 
+                fill="#fcc1b6" 
+                radius={30} 
+                barSize={14}
+              />
+              <Bar 
+                dataKey="max" 
+                name="Max BPM" 
+                fill="#f4320b" 
+                radius={30} 
+                barSize={14}
+              />
+              <Line 
+                type="monotone" 
+                dataKey="average" 
+                stroke={isHovered ? "#0b23f4" : "#f2f3ff"} 
+                strokeWidth={2}
+                dot={{ r: 4, fill: "#0b23f4" }}
+                name="Moyenne BPM"
+                connectNulls={false}
+                offset={7}
+              />
+              </ComposedChart>
+            </ResponsiveContainer>
           </div>
         </div>
       </section>

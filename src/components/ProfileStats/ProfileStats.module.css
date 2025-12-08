@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 32px;
-  width: 575px;
+  width: calc(55% - 28.5px);
 }
 
 .statsHeader {
@@ -38,7 +38,7 @@
   flex-direction: row;
   align-items: flex-start;
   gap: 19px;
-  width: 575px;
+  width: 100%;
 }
 
 .statsColumn {
@@ -46,7 +46,7 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 19px;
-  width: 278px;
+  width: calc(50% - 9.5px);
 }
 
 .statCard {
@@ -55,8 +55,7 @@
   align-items: flex-start;
   padding: 20px 30px;
   gap: 19px;
-  width: 278px;
-  height: 103px;
+  width: 100%;
   background: #0B23F4;
   border-radius: 10px;
 }

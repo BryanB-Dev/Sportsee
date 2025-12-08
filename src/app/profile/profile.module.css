@@ -49,7 +49,7 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 16px;
-  width: 508px;
+  width: calc(45% - 28.5px);
 }
 
 .profileHeader {
@@ -168,7 +168,7 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 32px;
-  width: 575px;
+  width: calc(55% - 28.5px);
 }
 
 .statsHeader {

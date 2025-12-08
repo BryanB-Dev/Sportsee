@@ -134,26 +134,3 @@
   0%, 100% { opacity: 0.6; }
   50% { opacity: 1; }
 }
-
-/* Responsive */
-@media (max-width: 768px) {
-  .weeklyGrid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-
-  .statsColumn {
-    max-width: none;
-    height: auto;
-  }
-
-  .statCard {
-    min-height: unset;
-  }
-}
-
-@media (max-width: 480px) {
-  .statCard {
-    padding: 16px;
-  }
-}
