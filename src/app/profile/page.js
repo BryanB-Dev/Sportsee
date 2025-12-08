@@ -57,6 +57,7 @@ export default function Profile() {
     age: metrics?.userInfo?.age || 29,
     weight: metrics?.userInfo?.weight || 58,
     height: metrics?.userInfo?.height || 168,
+    gender: metrics?.userInfo?.gender || null,
     profilePicture: metrics?.userInfo?.profilePicture || '/clara-avatar.jpg',
     createdAt: createdAtRaw
       ? new Date(createdAtRaw).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })

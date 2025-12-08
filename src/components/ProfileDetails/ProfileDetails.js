@@ -9,7 +9,7 @@ export default function ProfileDetails({ userData }) {
       </div>
       <div className={styles.profileDetails}>
         <div className={styles.profileDetail}>Âge : {userData.age}</div>
-        <div className={styles.profileDetail}>Genre : Femme</div>
+        <div className={styles.profileDetail}>Genre : {userData.gender || 'Non renseigné'}</div>
         <div className={styles.profileDetail}>Taille : {userData.height}cm</div>
         <div className={styles.profileDetail}>Poids : {userData.weight}kg</div>
       </div>
