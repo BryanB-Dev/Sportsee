@@ -49,6 +49,8 @@ export default function Profile() {
   }
 
   // Données utilisateur
+  const createdAtRaw = metrics?.userInfo?.createdAt;
+
   const userData = {
     firstName: metrics?.userInfo?.firstName || 'Clara',
     lastName: metrics?.userInfo?.lastName || 'Dupont',
@@ -56,9 +58,9 @@ export default function Profile() {
     weight: metrics?.userInfo?.weight || 58,
     height: metrics?.userInfo?.height || 168,
     profilePicture: metrics?.userInfo?.profilePicture || '/clara-avatar.jpg',
-    createdAt: metrics?.userInfo?.createdAt 
-      ? new Date(metrics.userInfo.createdAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
-      : '14 juin 2023'
+    createdAt: createdAtRaw
+      ? new Date(createdAtRaw).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
+      : 'Date inconnue'
   };
 
   // Statistiques : utiliser les stats fournies (totalDuration, totalDistance, totalSessions)

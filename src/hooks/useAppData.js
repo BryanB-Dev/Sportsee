@@ -59,7 +59,8 @@ export function useDashboardMetrics() {
         age: profile.age,
         weight: profile.weight,
         height: profile.height,
-        profilePicture: profile.profilePicture
+        profilePicture: profile.profilePicture,
+        createdAt: profile.createdAt
       }
     };
   }, [statistics, activity, profile]);
