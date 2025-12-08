@@ -93,9 +93,9 @@ export default function Header({ onLogout }) {
         <nav className={styles.navigation}>
           <div className={styles.navContent}>
             <div className={styles.navLinks}>
-              <a href="#" className={getLinkClass('dashboard')}>Dashboard</a>
+              <a href="/dashboard" className={getLinkClass('dashboard')}>Dashboard</a>
               <a href="#" className={getLinkClass('coach')}>Coach AI</a>
-              <a href="#" className={getLinkClass('profil')}>Mon profil</a>
+              <a href="/profile" className={getLinkClass('profile')}>Mon profil</a>
             </div>
             <div className={styles.logoutSection}>
               <button onClick={onLogout} className={styles.logoutButton}>

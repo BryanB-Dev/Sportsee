@@ -1,0 +1,94 @@
+.rightColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 32px;
+  width: 575px;
+}
+
+.statsHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.statsTitle {
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 27px;
+  color: #111111;
+  margin: 0;
+}
+
+.statsSubtitle {
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #707070;
+  margin: 0;
+}
+
+.statsGrid {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 19px;
+  width: 575px;
+}
+
+.statsColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 19px;
+  width: 278px;
+}
+
+.statCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 20px 30px;
+  gap: 19px;
+  width: 278px;
+  height: 103px;
+  background: #0B23F4;
+  border-radius: 10px;
+}
+
+.statLabel {
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.statValue {
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+  gap: 4px;
+  
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.statMain {
+  font-size: 22px;
+  color: #FFFFFF;
+}
+
+.statSub {
+  font-size: 16px;
+  line-height: 31px;
+  color: #B6BDFC;
+}
