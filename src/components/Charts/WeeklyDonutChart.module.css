@@ -1,0 +1,131 @@
+/* Conteneur principal du donut hebdomadaire */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 38px 32px;
+  gap: 16px;
+  width: 450px;
+  height: 342px;
+  background: #ffffff;
+  box-shadow: 0px 4px 84px -40px rgba(157, 167, 251, 0.4);
+  border-radius: 10px;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 0 32px;
+  width: 374px;
+  height: 97px;
+}
+
+.headerContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0;
+  width: 254px;
+  height: 65px;
+}
+
+.mainValue {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0;
+  gap: 5px;
+  width: 254px;
+  height: 48px;
+}
+
+.number {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 34px;
+  color: #0b23f4;
+}
+
+.objective {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  display: flex;
+  align-items: flex-end;
+  color: #b6bdfc;
+}
+
+.subtitle {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #707070;
+  margin: 0;
+}
+
+.chartContainer {
+  width: 306px;
+  height: 190.64px;
+  position: relative;
+}
+
+.legendTop {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0.818182px 0;
+  position: absolute;
+  width: 61.09px;
+  height: 14.73px;
+  left: 213.14px;
+  top: 9.82px;
+}
+
+.legendBottom {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0.818182px 0;
+  position: absolute;
+  width: 65.09px;
+  height: 14.73px;
+  left: 22.5px;
+  top: 133.36px;
+}
+
+.legendCircle {
+  width: 13.09px;
+  height: 13.09px;
+  position: relative;
+  margin-right: 8.18px;
+}
+
+.legendDot {
+  position: absolute;
+  width: 6.55px;
+  height: 6.55px;
+  left: 3.27px;
+  top: 3.27px;
+  border-radius: 50%;
+}
+
+.legendDotRemaining {
+  background: #b6bdfc;
+}
+
+.legendDotCompleted {
+  background: #0b23f4;
+}
+
+.legendText {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #707070;
+  white-space: nowrap;
+}

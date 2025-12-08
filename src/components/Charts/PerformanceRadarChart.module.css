@@ -1,0 +1,10 @@
+.emptyState {
+  height: var(--chart-height, 200px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #74798c;
+  background: #f8f8f8;
+  border-radius: 8px;
+  border: 2px dashed #e0e0e0;
+}

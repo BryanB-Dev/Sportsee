@@ -1,33 +1,34 @@
-// Mock des données de l'API backend pour le développement
-// Structure basée sur l'API réelle disponible sur http://localhost:8000
+// Mock des données de l'API backend pour le développement initial
 
 // Mock des utilisateurs disponibles pour l'authentification
 export const mockAuthUsers = [
   {
     username: 'sophiemartin',
     password: 'password123',
-    userId: 'user123'
+    userId: 'user123',
+    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyMTIzIiwiaWF0IjoxNzY0NzcxMjcwLCJleHAiOjE3NjQ4NTc2NzB9.QL94xaObRkcanvVsA2THPfGIwP251cWRVhskKbBbFus'
   },
   {
     username: 'emmaleroy', 
     password: 'password789',
-    userId: 'user456'
+    userId: 'user456',
+    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyNDU2IiwiaWF0IjoxNzY0NzcxMzAxLCJleHAiOjE3NjQ4NTc3MDF9.CCLWKBTpNH0cQfYIRYR9Rq3MXtmV_IBccKj5PgK0y_Y'
   },
   {
     username: 'marcdubois',
     password: 'password456', 
-    userId: 'user789'
+    userId: 'user789',
+    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyNzg5IiwiaWF0IjoxNzY0NzcxMjkwLCJleHAiOjE3NjQ4NTc2OTB9.imxbfEnvZmAjwvCQ80L_YKOyqGk4gr9NKID3DDbacUI'
   }
 ];
 
-// Mock de la réponse de login (basé sur la vraie réponse API)
+// Mock de la réponse de login
 export const mockLoginResponse = {
-  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyMTIzIiwiaWF0IjoxNzY0MTc2MTIxLCJleHAiOjE3NjQyNjI1MjF9.azLCmACQlFDicT-v3zpQ2NzAxcoZST68q72nFJd0J1Y',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyMTIzIiwiaWF0IjoxNzY0NzcxMjcwLCJleHAiOjE3NjQ4NTc2NzB9.QL94xaObRkcanvVsA2THPfGIwP251cWRVhskKbBbFus',
   userId: 'user123'
 };
 
-// Mock des informations utilisateur et statistiques (GET /api/user-info)
-// Basé sur les vraies réponses de l'API
+// Mock des informations utilisateur et statistiques
 export const mockUserInfo = {
   'user123': {
     profile: {
@@ -79,8 +80,7 @@ export const mockUserInfo = {
   }
 };
 
-// Mock des données d'activité de course (GET /api/user-activity)
-// Basé sur la vraie structure de réponse de l'API
+// Mock des données d'activité de course
 export const mockUserActivity = {
   'user123': [
     {
@@ -231,9 +231,9 @@ export const mockLogin = async (username, password) => {
     throw new Error('Identifiants incorrects');
   }
   
-  // Retourner le vrai format de token de l'API
+  // Retourner le vrai token de l'API backend
   return mockApiCall({
-    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyMTIzIiwiaWF0IjoxNzY0MTc2MTIxLCJleHAiOjE3NjQyNjI1MjF9.azLCmACQlFDicT-v3zpQ2NzAxcoZST68q72nFJd0J1Y',
+    token: user.token,
     userId: user.userId
   });
 };

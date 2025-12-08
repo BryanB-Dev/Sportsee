@@ -1,8 +1,7 @@
-// Service API pour gérer les appels vers le backend avec fallback sur les mocks
-// Permet de développer avec des données mockées puis de basculer vers l'API réelle
+// Service API pour gérer les appels vers le backend
 
 const API_BASE_URL = 'http://localhost:8000/api';
-let USE_MOCK_DATA = true; // Changé de const à let pour permettre la modification
+let USE_MOCK_DATA = true;
 
 // Import des données mockées
 import { 
@@ -107,8 +106,13 @@ export const authService = {
       if (token.startsWith('mock-jwt-token-')) {
         return token.replace('mock-jwt-token-', '');
       }
-      // Pour les vrais tokens, retourner l'userId par défaut
-      return 'user123';
+      // Décoder le vrai JWT pour extraire l'userId
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        return payload.userId;
+      } catch {
+        return 'user123'; // Fallback si le décodage échoue
+      }
     }
 
     try {

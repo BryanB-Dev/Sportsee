@@ -1,0 +1,116 @@
+/* Carte générique pour les graphiques */
+.chartCard {
+  background-color: #ffffff;
+  padding: 0;
+  border-radius: 10px;
+  box-shadow: 0px 4px 84px -40px rgba(157, 167, 251, 0.4);
+  transition: all 0.3s ease;
+  width: 100%;
+  height: 484px;
+  overflow: hidden;
+}
+
+.chartOffset {
+  margin-top: 40px;
+}
+
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 48px;
+  padding: 16px 40px 0;
+}
+
+.subtitle {
+  font-size: 12px;
+  color: #707070;
+  padding: 0 40px;
+}
+
+.navButton {
+  padding: 2px 8px;
+  border: 1px solid #717171;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.navSpan {
+  font-size: 12px;
+  margin: 0 8px;
+}
+
+.titlePrimary {
+  color: #0B23F4;
+  font-size: 22px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.titleAccent {
+  color: #F4320B;
+  font-size: 22px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.tooltip {
+  background-color: rgba(0, 0, 0, 0.9);
+  padding: 13px 12px;
+  border-radius: 8px;
+  border: none;
+  text-align: left;
+}
+
+.tooltipDate {
+  color: #ffffff;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.tooltipValue {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.emptyState {
+  height: var(--chart-height, 350px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.legendWrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  color: #707070;
+  margin-left: 40px;
+  margin-top: 16px;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legendIcon {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.legendLabel {
+  color: #707070;
+}
+
+.chartCard :global(.recharts-rectangle.recharts-tooltip-cursor) {
+  fill: transparent !important;
+}

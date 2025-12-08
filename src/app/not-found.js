@@ -21,30 +21,30 @@ export default function NotFound() {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.content}>
+    <div className={styles.notFoundContainer}>
+      <div className={styles.notFoundContent}>
         <div className={styles.errorCode}>404</div>
-        <h1 className={styles.title}>Page non trouvée</h1>
-        <p className={styles.description}>
+        <h1 className={styles.errorTitle}>Page non trouvée</h1>
+        <p className={styles.errorDescription}>
           Désolé, la page que vous recherchez n'existe pas ou a été déplacée.
         </p>
         
-        <div className={styles.actions}>
+        <div className={styles.actionsContainer}>
           <button 
             onClick={handleGoHome}
-            className={styles.primaryButton}
+            className={styles.primaryActionButton}
           >
             {isAuthenticated ? 'Retour au dashboard' : 'Se connecter'}
           </button>
           <button 
             onClick={handleGoBack}
-            className={styles.secondaryButton}
+            className={styles.secondaryActionButton}
           >
             Page précédente
           </button>
         </div>
         
-        <div className={styles.logo}>
+        <div className={styles.brandLogo}>
           Sport<span>See</span>
         </div>
       </div>

@@ -1,0 +1,159 @@
+/* Container principal de la section WeeklySection */
+.weeklySection {
+  margin-bottom: 40px;
+}
+
+/* Header de section */
+.sectionHeader {
+  margin-bottom: 24px;
+}
+
+.sectionTitle {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.25px;
+}
+
+.sectionSubtitle {
+  color: #64748b;
+  font-size: 14px;
+  margin: 0;
+  font-weight: 400;
+}
+
+/* Grille principale */
+.weeklyGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+/* Colonne des stats (à côté du donut) */
+.statsColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  width: 100%;
+  max-width: 572px;
+  height: 342px;
+  flex: 1;
+  align-self: stretch;
+}
+
+.statCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 20px 30px;
+  gap: 19px;
+  width: 100%;
+  min-height: 103px;
+  background: #FFFFFF;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.statCardDistance {
+  min-height: 104px;
+}
+
+.statLabel {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #707070;
+}
+
+.statValueRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+}
+
+.statValuePrimary {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 27px;
+  color: #0B23F4;
+}
+
+.statUnitPrimary {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  display: flex;
+  align-items: flex-end;
+  color: #B6BDFC;
+}
+
+.statValueDistance {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 27px;
+  color: #F4320B;
+}
+
+.statUnitDistance {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  display: flex;
+  align-items: flex-end;
+  color: #FCC1B6;
+}
+
+/* État de chargement */
+.loadingCard {
+  grid-column: 1 / -1;
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  border: 1px solid #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loadingPlaceholder {
+  color: #94a3b8;
+  font-style: italic;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .weeklyGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .statsColumn {
+    max-width: none;
+    height: auto;
+  }
+
+  .statCard {
+    min-height: unset;
+  }
+}
+
+@media (max-width: 480px) {
+  .statCard {
+    padding: 16px;
+  }
+}

@@ -1,290 +1,119 @@
+/* Container principal du dashboard */
 .container {
   min-height: 100vh;
-  background-color: #fafafa;
-}
-
-.header {
-  background: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 20px 0;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.headerContent {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+  background: var(--background);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
 }
 
-.logo {
-  color: #ff0101;
-  font-size: 2rem;
-  font-weight: 700;
-  margin: 0;
-}
-
-.userSection {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.welcome {
-  color: #20253a;
-  font-size: 1.1rem;
-}
-
-.logoutButton {
-  background: #ff0101;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: background-color 0.3s ease;
-}
-
-.logoutButton:hover {
-  background: #e50000;
-}
-
+/* Contenu principal */
 .main {
-  max-width: 1200px;
+  flex: 1;
+  max-width: 1140px;
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: 40px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
 }
 
-.content {
-  animation: fadeIn 0.6s ease-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.welcomeSection {
-  margin-bottom: 40px;
-}
-
-.title {
-  font-size: 2.5rem;
-  color: #20253a;
-  margin: 0 0 10px 0;
-  font-weight: 500;
-}
-
-.userName {
-  color: #ff0101;
-}
-
-.subtitle {
-  color: #74798c;
-  font-size: 1.2rem;
-  margin: 0;
-}
-
-.dashboardGrid {
-  display: grid;
-  grid-template-columns: 1fr 250px;
-  gap: 30px;
-  align-items: start;
-}
-
+/* Section des graphiques */
 .chartsSection {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.chartCard {
-  background: white;
-  border-radius: 12px;
-  padding: 30px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  min-height: 300px;
-}
-
-.chartCard h3 {
-  color: #20253a;
-  font-size: 1.2rem;
-  margin: 0 0 20px 0;
-  font-weight: 600;
-}
-
-.chartCard p {
-  color: #74798c;
-  margin: 0;
-  text-align: center;
-  margin-top: 100px;
-}
-
-.miniChartsRow {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: 40px;
+  align-items: flex-start;
 }
 
-.miniChart {
-  background: white;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  min-height: 200px;
-  text-align: center;
+@media (max-width: 768px) {
+  .chartsSection {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
 }
 
-.miniChart h4 {
-  color: #20253a;
-  font-size: 1rem;
-  margin: 0 0 15px 0;
-  font-weight: 600;
-}
-
-.miniChart p {
-  color: #74798c;
-  margin: 0;
-  font-size: 0.9rem;
-  margin-top: 60px;
-}
-
-.sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.metricCard {
-  background: white;
-  border-radius: 12px;
-  padding: 25px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.metricCard:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-}
-
-.metricIcon {
-  font-size: 2rem;
-  width: 60px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 1, 1, 0.1);
-  border-radius: 50%;
-}
-
-.metricContent {
-  display: flex;
-  flex-direction: column;
-}
-
-.metricValue {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: #20253a;
-  margin-bottom: 4px;
-}
-
-.metricLabel {
-  color: #74798c;
-  font-size: 0.9rem;
-}
-
+/* États de chargement */
 .loader {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  background-color: #fafafa;
+  height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
 }
 
 .spinner {
   width: 40px;
   height: 40px;
-  border: 4px solid #e9ecef;
-  border-top: 4px solid #ff0101;
+  border: 4px solid #f1f5f9;
+  border-top: 4px solid #4f46e5;
   border-radius: 50%;
   animation: spin 1s linear infinite;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
+.loader p {
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* Container d'erreur */
+.errorContainer {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  border: 1px solid #fecaca;
+  max-width: 500px;
+  margin: 2rem auto;
+}
+
+.errorContainer h2 {
+  color: #dc2626;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+}
+
+.errorContainer p {
+  color: #64748b;
+  margin-bottom: 2rem;
+}
+
+.errorContainer button {
+  background: #4f46e5;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.errorContainer button:hover {
+  background: #4338ca;
+  transform: translateY(-1px);
+}
+
+/* Animations */
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
 
-.loader p {
-  color: #74798c;
-  font-size: 1.1rem;
-}
-
 /* Responsive */
-@media (max-width: 1024px) {
-  .dashboardGrid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-  
-  .sidebar {
-    grid-row: 1;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
-  }
-}
-
 @media (max-width: 768px) {
-  .title {
-    font-size: 2rem;
-  }
-  
-  .miniChartsRow {
-    grid-template-columns: 1fr;
-    gap: 15px;
-  }
-  
-  .headerContent {
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .userSection {
-    flex-direction: column;
-    gap: 10px;
+  .main {
+    padding: 20px;
+    gap: 24px;
   }
 }
 
 @media (max-width: 480px) {
   .main {
-    padding: 20px 10px;
-  }
-  
-  .sidebar {
-    grid-template-columns: 1fr;
-  }
-  
-  .metricCard {
-    padding: 20px;
+    padding: 16px;
+    gap: 20px;
   }
 }

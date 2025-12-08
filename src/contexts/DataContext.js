@@ -313,14 +313,3 @@ export function useData() {
   }
   return context;
 }
-
-// Hook combiné pour accéder aux données et à l'auth en une seule fois
-export function useAppData() {
-  const authData = useAuth();
-  const appData = useData();
-  
-  return {
-    ...authData,
-    ...appData
-  };
-}

@@ -1,0 +1,317 @@
+/* Conteneur principal du profil utilisateur */
+.userProfileSection {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32px 52px;
+  gap: 24px;
+  
+  width: 100%;
+  height: 181px;
+  margin-bottom:68px;
+  
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0) -8.38%, var(--white) 100%);
+  border-radius: 20px;
+}
+
+/* Container des informations utilisateur (photo + texte) */
+.userInfoWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0;
+  gap: 38px;
+  
+  width: 345px;
+  height: 117px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+/* Photo de profil */
+.userAvatar {
+  width: 104px;
+  height: 117px;
+  
+  border-radius: 10px;
+  box-shadow: 0px 4px 84px -40px rgba(157, 167, 251, 0.4);
+  overflow: hidden;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+.userAvatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Container du texte utilisateur (nom + date) */
+.userTextInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0;
+  gap: 4px;
+  
+  width: 203px;
+  height: 48px;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+
+/* Nom de l'utilisateur */
+.userName {
+  width: 203px;
+  height: 27px;
+  
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 27px;
+  
+  color: var(--foreground);
+  margin: 0;
+  flex: none;
+  order: 0;
+  align-self: stretch;
+  flex-grow: 0;
+}
+
+/* Date de membre */
+.membershipDate {
+  width: 203px;
+  height: 17px;
+  
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  
+  color: var(--text-muted);
+  margin: 0;
+  flex: none;
+  order: 1;
+  align-self: stretch;
+  flex-grow: 0;
+}
+
+/* Container de l'achievement (label + badge) */
+.achievementWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0;
+  gap: 18px;
+  
+  width: 372px;
+  height: 90px;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+
+/* Label "Distance totale parcourue" */
+.achievementLabel {
+  width: 171px;
+  height: 17px;
+  
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  
+  color: var(--text-muted);
+  margin: 0;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+/* Badge d'achievement */
+.achievementBadge {
+  box-sizing: border-box;
+  
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 28px 27px;
+  gap: 19px;
+  
+  width: 183px;
+  height: 90px;
+  
+  background: #0B23F4;
+  border: 1px solid #0B23F4;
+  border-radius: 10px;
+  
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+
+.achievementBadge:hover {
+  background: #0918d9;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(11, 35, 244, 0.3);
+}
+
+/* Icône de l'achievement */
+.achievementIcon {
+  width: 34px;
+  height: 34px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+}
+
+/* Valeur de l'achievement */
+.achievementValue {
+  width: 76px;
+  height: 27px;
+  
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 27px;
+  
+  color: var(--white);
+  margin: 0;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+
+/* Responsive pour tablettes */
+@media (max-width: 1120px) {
+  .profileHeader {
+    max-width: 95%;
+    padding: 28px 40px;
+    gap: 200px;
+  }
+  
+  .achievementContainer {
+    width: auto;
+    flex: 1;
+    justify-content: flex-end;
+  }
+  
+  .achievementLabel {
+    width: auto;
+    flex: 1;
+  }
+}
+
+/* Responsive pour mobiles */
+@media (max-width: 768px) {
+  .profileHeader {
+    flex-direction: column;
+    height: auto;
+    padding: 24px;
+    gap: 24px;
+    align-items: center;
+  }
+  
+  .userInfoContainer {
+    width: 100%;
+    height: auto;
+    justify-content: center;
+    gap: 24px;
+  }
+  
+  .userDetails {
+    width: auto;
+    height: auto;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .userName {
+    width: auto;
+    height: auto;
+    font-size: 20px;
+    line-height: 24px;
+  }
+  
+  .memberSince {
+    width: auto;
+    height: auto;
+  }
+  
+  .achievementContainer {
+    width: 100%;
+    height: auto;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+  }
+  
+  .achievementLabel {
+    width: auto;
+    height: auto;
+    text-align: center;
+  }
+  
+  .achievementBadge {
+    width: 100%;
+    max-width: 250px;
+    height: 80px;
+    padding: 20px 24px;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .profileHeader {
+    padding: 20px 16px;
+  }
+  
+  .userInfoContainer {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .profilePicture {
+    width: 80px;
+    height: 92px;
+  }
+  
+  .userName {
+    font-size: 18px;
+    line-height: 22px;
+  }
+  
+  .memberSince {
+    font-size: 13px;
+  }
+  
+  .achievementBadge {
+    height: 70px;
+    padding: 16px 20px;
+  }
+  
+  .achievementIcon {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .achievementValue {
+    font-size: 18px;
+    line-height: 22px;
+  }
+}

@@ -3,15 +3,27 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../contexts/AuthContext';
-import { useDashboardMetrics, useNutritionalMetrics, useErrorHandling } from '../../hooks/useAppData';
-import DataTester from '../../components/DataTester/DataTester';
+import { useDashboardMetrics, useErrorHandling, useChartData } from '../../hooks/useAppData';
+import { useData } from '../../contexts/DataContext';
+
+// Import des composants
+import Header from '../../components/Header/Header';
+import IntroSection from '../../components/IntroSection/IntroSection';
+import UserProfile from '../../components/UserProfile/UserProfile';
+import PerformanceCharts from '../../components/PerformanceCharts/PerformanceCharts';
+import WeeklySection from '../../components/WeeklySection/WeeklySection';
+import PerformanceBarChart from '../../components/Charts/PerformanceBarChart';
+import Footer from '../../components/Footer/Footer';
+
+// Import du CSS Module
 import styles from './dashboard.module.css';
 
 export default function Dashboard() {
   const { user, isAuthenticated, logout, isLoading: authLoading } = useAuth();
   const { metrics, isLoading: dataLoading, hasErrors } = useDashboardMetrics();
-  const { nutritionalData } = useNutritionalMetrics();
   const { hasAnyError, getFormattedError } = useErrorHandling();
+  const { chartData: chartsData, isLoading: chartsLoading } = useChartData();
+  const { activity } = useData(); // Accès direct aux données d'activité
   const router = useRouter();
   const [isRedirecting, setIsRedirecting] = useState(false);
 
@@ -32,7 +44,7 @@ export default function Dashboard() {
     return (
       <div className={styles.loader}>
         <div className={styles.spinner}></div>
-        <p>Chargement...</p>
+        <p className={styles.loader}>Chargement...</p>
       </div>
     );
   }
@@ -46,164 +58,162 @@ export default function Dashboard() {
   if (hasAnyError) {
     return (
       <div className={styles.container}>
-        <header className={styles.header}>
-          <div className={styles.headerContent}>
-            <h1 className={styles.logo}>SportSee</h1>
-            <div className={styles.userSection}>
-              <span className={styles.welcome}>
-                Bonjour <strong>{user?.firstName || 'Utilisateur'}</strong>
-              </span>
-              <button 
-                onClick={handleLogout}
-                className={styles.logoutButton}
-              >
-                Se déconnecter
-              </button>
-            </div>
-          </div>
-        </header>
-        <main className={styles.main}>
-          <div className={styles.errorContainer}>
+        <Header onLogout={handleLogout} />
+        <main className={styles.errorContainer}>
+          <div>
             <h2>Erreur de chargement des données</h2>
             <p>{getFormattedError('profile') || getFormattedError('statistics') || getFormattedError('activity')}</p>
             <button onClick={() => window.location.reload()}>Réessayer</button>
           </div>
         </main>
+        <Footer />
       </div>
     );
   }
 
+  // Préparer les données pour les composants en utilisant les vraies données des mocks
+  const userData = {
+    firstName: metrics?.userInfo?.firstName || 'Utilisateur',
+    lastName: metrics?.userInfo?.lastName || '',
+    profilePicture: metrics?.userInfo?.profilePicture || null,
+    memberSince: metrics?.userInfo?.createdAt 
+      ? new Date(metrics.userInfo.createdAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
+      : '14 juin 2023'
+  };
+
+  // Conversion sécurisée des valeurs numériques depuis les mocks
+  const totalDistance = metrics?.statistics?.totalDistance 
+    ? Math.round(parseFloat(metrics.statistics.totalDistance)) 
+    : (activity && activity.length > 0 
+        ? Math.round(activity.reduce((sum, session) => sum + session.distance, 0))
+        : 0);
+  
+  const averageDistance = metrics?.averageDistance 
+    ? parseFloat(metrics.averageDistance).toFixed(1)
+    : 0;
+  
+  const averageHeartRate = metrics?.averageHeartRate 
+    ? Math.round(parseFloat(metrics.averageHeartRate)) 
+    : 0;
+  
+  const sessionsCount = metrics?.weeklyPerformance.sessionsCount || 4;
+  const totalDuration = Math.round(metrics?.weeklyPerformance.totalDuration || 140);
+  const weeklyDistance = Math.round(metrics?.weeklyPerformance.totalDistance || 21.7);
+
+  // Données pour le graphique des kilomètres (basées sur les vraies données d'activité)
+  const kilometersData = activity && activity.length > 0
+    ? (() => {
+        const weeklyData = [];
+        const sessionsPerWeek = Math.ceil(activity.length / 4);
+        
+        // Regrouper par semaine (4 semaines)
+        for (let week = 0; week < 4; week++) {
+          const startIndex = week * sessionsPerWeek;
+          const endIndex = Math.min((week + 1) * sessionsPerWeek, activity.length);
+          const weekData = activity.slice(startIndex, endIndex);
+          
+          if (weekData.length > 0) {
+            const totalKm = weekData.reduce((sum, session) => sum + session.distance, 0);
+            weeklyData.push({ day: `S${week + 1}`, value: Math.round(totalKm * 10) / 10 });
+          }
+        }
+        
+        // Remplir avec des valeurs par défaut si nécessaire
+        while (weeklyData.length < 4) {
+          weeklyData.push({ day: `S${weeklyData.length + 1}`, value: 0 });
+        }
+        
+        return weeklyData;
+      })()
+    : [
+        { day: 'S1', value: Math.round(weeklyDistance * 0.6) },
+        { day: 'S2', value: Math.round(weeklyDistance * 1.2) },
+        { day: 'S3', value: Math.round(weeklyDistance * 0.8) },
+        { day: 'S4', value: weeklyDistance }
+      ];
+
+  // Données pour le graphique BPM (basées sur les vraies données d'activité)
+  const heartRateData = activity && activity.length > 0
+    ? activity.slice(0, 7).map((session, index) => {
+        const dayNames = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
+        return {
+          day: dayNames[index] || `J${index + 1}`,
+          min: session.heartRate.min,
+          max: session.heartRate.max,
+          average: session.heartRate.average
+        };
+      })
+    : [
+        { day: 'Lun', min: 135, max: 165, average: 150 },
+        { day: 'Mar', min: 142, max: 172, average: 157 },
+        { day: 'Mer', min: 145, max: 185, average: 165 },
+        { day: 'Jeu', min: 140, max: 170, average: 155 },
+        { day: 'Ven', min: 137, max: 168, average: 152 },
+        { day: 'Sam', min: 145, max: 163, average: 154 },
+        { day: 'Dim', min: 138, max: 175, average: 156 }
+      ];
+
   return (
     <div className={styles.container}>
-      <header className={styles.header}>
-        <div className={styles.headerContent}>
-          <h1 className={styles.logo}>SportSee</h1>
-          <div className={styles.userSection}>
-            <span className={styles.welcome}>
-              Bonjour <strong>{user?.firstName || 'Utilisateur'}</strong>
-            </span>
-            <button 
-              onClick={handleLogout}
-              className={styles.logoutButton}
-            >
-              Se déconnecter
-            </button>
-          </div>
-        </div>
-      </header>
+      {/* Header */}
+      <Header onLogout={handleLogout} />
 
       <main className={styles.main}>
-        <div className={styles.content}>
-          <div className={styles.welcomeSection}>
-            <h2 className={styles.title}>
-              Bonjour{' '}
-              <span className={styles.userName}>
-                {user?.firstName || 'Utilisateur'}
-              </span>
-            </h2>
-            <p className={styles.subtitle}>
-              Félicitation ! Vous avez explosé vos objectifs hier 👏
-            </p>
-          </div>
+        {/* Section d'introduction */}
+        <IntroSection />
 
-          <div className={styles.dashboardGrid}>
-            {/* Section principale avec graphiques */}
-            <section className={styles.chartsSection}>
-              <div className={styles.chartCard}>
-                <h3>Activité quotidienne</h3>
-                {dataLoading ? (
-                  <div className={styles.chartLoader}>Chargement des données...</div>
-                ) : metrics ? (
-                  <div className={styles.chartPlaceholder}>
-                    <p>Sessions cette semaine: {metrics.weeklyPerformance.sessionsCount}</p>
-                    <p>Distance moyenne: {metrics.averageDistance} km</p>
-                    <p>FC moyenne: {metrics.averageHeartRate} BPM</p>
-                    <p>Graphique d'activité (à implémenter avec Recharts)</p>
-                  </div>
-                ) : (
-                  <p>Aucune donnée d'activité disponible</p>
-                )}
-              </div>
-              
-              <div className={styles.miniChartsRow}>
-                <div className={styles.miniChart}>
-                  <h4>Durée moyenne des sessions</h4>
-                  {dataLoading ? (
-                    <div className={styles.chartLoader}>...</div>
-                  ) : (
-                    <div className={styles.chartPlaceholder}>
-                      <p>Durée moyenne: {metrics?.weeklyPerformance.totalDuration / (metrics?.weeklyPerformance.sessionsCount || 1) || 0} min</p>
-                      <p>Graphique linéaire (à implémenter)</p>
-                    </div>
-                  )}
-                </div>
-                <div className={styles.miniChart}>
-                  <h4>Radar de performance</h4>
-                  <p>Graphique radar (à implémenter)</p>
-                </div>
-                <div className={styles.miniChart}>
-                  <h4>Score</h4>
-                  {dataLoading ? (
-                    <div className={styles.chartLoader}>...</div>
-                  ) : (
-                    <div className={styles.chartPlaceholder}>
-                      <p>Score: {Math.min(100, (metrics?.weeklyPerformance.sessionsCount || 0) * 14)}%</p>
-                      <p>Graphique radial (à implémenter)</p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </section>
+        {/* Profil utilisateur */}
+        <UserProfile 
+          user={userData}
+          totalDistance={totalDistance}
+        />
 
-            {/* Sidebar avec métriques */}
-            <aside className={styles.sidebar}>
-              <div className={styles.metricCard}>
-                <div className={styles.metricIcon}>🔥</div>
-                <div className={styles.metricContent}>
-                  <span className={styles.metricValue}>
-                    {dataLoading ? '...' : `${nutritionalData.calories}kCal`}
-                  </span>
-                  <span className={styles.metricLabel}>Calories</span>
-                </div>
-              </div>
-              
-              <div className={styles.metricCard}>
-                <div className={styles.metricIcon}>🥩</div>
-                <div className={styles.metricContent}>
-                  <span className={styles.metricValue}>
-                    {dataLoading ? '...' : `${nutritionalData.proteins}g`}
-                  </span>
-                  <span className={styles.metricLabel}>Proteines</span>
-                </div>
-              </div>
-              
-              <div className={styles.metricCard}>
-                <div className={styles.metricIcon}>🍎</div>
-                <div className={styles.metricContent}>
-                  <span className={styles.metricValue}>
-                    {dataLoading ? '...' : `${nutritionalData.carbohydrates}g`}
-                  </span>
-                  <span className={styles.metricLabel}>Glucides</span>
-                </div>
-              </div>
-              
-              <div className={styles.metricCard}>
-                <div className={styles.metricIcon}>🥑</div>
-                <div className={styles.metricContent}>
-                  <span className={styles.metricValue}>
-                    {dataLoading ? '...' : `${nutritionalData.fats}g`}
-                  </span>
-                  <span className={styles.metricLabel}>Lipides</span>
-                </div>
-              </div>
-            </aside>
-          </div>
-
-          {/* Composant de test temporaire */}
-          <DataTester />
-          
+        {/* Section des graphiques */}
+        <div className={styles.chartsSection}>
+          {/* Graphiques de performance avec remplacement du graphique de gauche */}
+          <PerformanceCharts
+            distanceData={[]} // Vide car remplacé par le nouveau graphique
+            heartRateData={[]} // Vide car remplacé par le nouveau graphique BPM
+            averageDistance={averageDistance}
+            averageHeartRate={averageHeartRate}
+            isLoading={chartsLoading}
+            customLeftChart={
+              <PerformanceBarChart
+                data={kilometersData}
+                title="Kilomètres parcourus"
+                color="#B6BDFC"
+                height={400}
+                isKilometersChart={true}
+                averageDistance={averageDistance}
+                activityData={activity}
+              />
+            }
+            customRightChart={
+              <PerformanceBarChart
+                data={heartRateData}
+                title="Fréquence cardiaque"
+                color="#F4320B"
+                height={400}
+                isBPMChart={true}
+                averageBPM={averageHeartRate}
+                activityData={activity}
+              />
+            }
+          />
         </div>
+
+        {/* Section hebdomadaire */}
+        <WeeklySection
+          sessionsCount={sessionsCount}
+          maxSessions={6}
+          totalDuration={totalDuration}
+          totalDistance={weeklyDistance}
+          isLoading={dataLoading}
+        />
       </main>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }

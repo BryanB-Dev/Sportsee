@@ -132,48 +132,6 @@ export function useChartData() {
 }
 
 /**
- * Hook personnalisé pour les métriques nutritionnelles
- * Calcule les valeurs nutritionnelles basées sur l'activité
- */
-export function useNutritionalMetrics() {
-  const { activity, profile, isLoading } = useData();
-
-  const nutritionalData = useMemo(() => {
-    if (!activity || !profile) {
-      return {
-        calories: 0,
-        proteins: 0,
-        carbohydrates: 0,
-        fats: 0
-      };
-    }
-
-    // Calcul basé sur l'activité récente et le profil utilisateur
-    const totalCaloriesBurned = activity.reduce((sum, session) => sum + session.caloriesBurned, 0);
-    const averageDailyCalories = activity.length > 0 ? totalCaloriesBurned / activity.length : 0;
-
-    // Estimation des besoins nutritionnels basés sur le profil et l'activité
-    const basalMetabolicRate = profile.gender === 'male' 
-      ? 88.362 + (13.397 * profile.weight) + (4.799 * profile.height) - (5.677 * profile.age)
-      : 447.593 + (9.247 * profile.weight) + (3.098 * profile.height) - (4.330 * profile.age);
-
-    const dailyCalorieNeeds = Math.round(basalMetabolicRate * 1.6 + averageDailyCalories);
-
-    return {
-      calories: dailyCalorieNeeds,
-      proteins: Math.round(profile.weight * 1.6), // 1.6g par kg de poids corporel pour un sportif
-      carbohydrates: Math.round(dailyCalorieNeeds * 0.55 / 4), // 55% des calories en glucides
-      fats: Math.round(dailyCalorieNeeds * 0.25 / 9) // 25% des calories en lipides
-    };
-  }, [activity, profile]);
-
-  return {
-    nutritionalData,
-    isLoading
-  };
-}
-
-/**
  * Hook personnalisé pour la gestion des erreurs
  * Fournit des utilitaires pour gérer les erreurs de l'application
  */

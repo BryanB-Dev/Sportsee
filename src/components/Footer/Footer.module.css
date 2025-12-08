@@ -1,0 +1,205 @@
+/* Footer */
+.footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 100px;
+  gap: 831px;
+  max-width: 1440px;
+  margin: auto;
+  height: 40.66px;
+  background: #FFFFFF;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+
+/* Left section - Copyright */
+.leftSection {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+  gap: 9px;
+  width: 217px;
+  height: 17px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+.copyrightText {
+  width: 73px;
+  height: 17px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #111111;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+.rightsText {
+  width: 135px;
+  height: 17px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #111111;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+
+/* Right section */
+.rightSection {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+  gap: 16px;
+  width: 264px;
+  height: 20.66px;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+
+.link {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #111111;
+  text-decoration: none;
+  flex: none;
+  flex-grow: 0;
+}
+
+.linkConditions {
+  width: 140px;
+  height: 17px;
+  order: 0;
+}
+
+.linkContact {
+  width: 73px;
+  height: 17px;
+  order: 1;
+  flex-grow: 1;
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+  gap: 5px;
+  width: 19px;
+  height: 20.66px;
+  flex: none;
+  order: 2;
+  flex-grow: 0;
+  position: relative;
+}
+
+.logoBar {
+  position: absolute;
+  border-radius: 20px;
+}
+
+/* Bar 1 - Left */
+.bar1Bottom {
+  left: 0%;
+  right: 84.21%;
+  top: 53.25%;
+  bottom: 8.02%;
+  background: linear-gradient(180deg, #F4320B 0%, #5465F7 100%);
+}
+
+.bar1Top {
+  left: 0%;
+  right: 84.21%;
+  top: 16.11%;
+  bottom: 30.64%;
+  background: linear-gradient(0deg, #F99885 0%, #DF392B 100%);
+  transform: rotate(180deg);
+}
+
+/* Bar 2 - Center left */
+.bar2Bottom {
+  left: 21.05%;
+  right: 63.16%;
+  top: 27.38%;
+  bottom: 0%;
+  background: linear-gradient(180deg, #F4320B 0%, #5465F7 100%);
+}
+
+.bar2Top {
+  left: 21.05%;
+  right: 63.16%;
+  top: 0%;
+  bottom: 32.22%;
+  background: linear-gradient(0deg, #F99885 0%, #DF392B 100%);
+  transform: rotate(180deg);
+}
+
+/* Bar 3 - Center */
+.bar3Bottom {
+  left: 42.11%;
+  right: 42.11%;
+  top: 54.84%;
+  bottom: 20.95%;
+  background: linear-gradient(180deg, #F4320B 0%, #5465F7 100%);
+}
+
+.bar3Top {
+  left: 42.11%;
+  right: 42.11%;
+  top: 9.68%;
+  bottom: 32.22%;
+  background: linear-gradient(0deg, #F99885 0%, #DF392B 100%);
+  transform: rotate(180deg);
+}
+
+/* Bar 4 - Center right */
+.bar4Bottom {
+  left: 63.16%;
+  right: 21.05%;
+  top: 53.25%;
+  bottom: 3.18%;
+  background: linear-gradient(180deg, #F4320B 0%, #5465F7 100%);
+}
+
+.bar4Top {
+  left: 63.16%;
+  right: 21.05%;
+  top: 24.21%;
+  bottom: 32.22%;
+  background: linear-gradient(0deg, #F99885 0%, #DF392B 100%);
+  transform: rotate(180deg);
+}
+
+/* Bar 5 - Right */
+.bar5Bottom {
+  left: 84.21%;
+  right: 0%;
+  top: 54.84%;
+  bottom: 16.11%;
+  background: linear-gradient(180deg, #F4320B 0%, #5465F7 100%);
+}
+
+.bar5Top {
+  left: 84.21%;
+  right: 0%;
+  top: 0%;
+  bottom: 32.22%;
+  background: linear-gradient(0deg, #F99885 0%, #DF392B 100%);
+  transform: rotate(180deg);
+}
