@@ -18,12 +18,12 @@
 
 .performanceGrid > :first-child {
   flex: 0 0 calc(43% - 12px);
-  overflow: hidden;
+  overflow: visible;
 }
 
 .performanceGrid > :last-child {
   flex: 0 0 calc(57% - 12px);
-  overflow: hidden;
+  overflow: visible;
 }
 
 /* Carte de performance */
@@ -37,8 +37,7 @@
 }
 
 .performanceCard:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 54px -18px #9DA7FB99;
 }
 
 .performanceCardLoading {

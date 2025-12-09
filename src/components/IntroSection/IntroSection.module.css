@@ -72,12 +72,6 @@
   transition: all 0.2s ease;
 }
 
-.actionButton:hover {
-  background: #0918d9;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(11, 35, 244, 0.3);
-}
-
-.actionButton:active {
-  transform: translateY(0);
+.actionButton:hover, .actionButton:focus {
+  background: #5465F7;
 }

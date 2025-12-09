@@ -152,17 +152,9 @@
   border: 1px solid #0B23F4;
   border-radius: 10px;
   
-  cursor: pointer;
-  transition: all 0.2s ease;
   flex: none;
   order: 1;
   flex-grow: 0;
-}
-
-.achievementBadge:hover {
-  background: #0918d9;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(11, 35, 244, 0.3);
 }
 
 /* Icône de l'achievement */

@@ -125,12 +125,14 @@ export default function PerformanceBarChart({
         >
           <div className={styles.headerRow}>
             <h4 className={styles.titlePrimary}>{averageDistance}km en moyenne</h4>
-            <div>
+            <div className={styles.navContainer}>
               <button 
                 className={styles.navButton}
                 onClick={() => setBpmStartDate(prev => subtractDays(prev, 7))}
               >
-                &lt;
+                <svg width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ transform: 'scaleX(-1)' }}>
+                  <path d="M2 10L6 6L2 2" strokeLinecap="round"/>
+                </svg>
               </button>
               <span className={styles.navSpan}>
                 {formatDate(bpmStartDate)} - {formatDate(endDate)}
@@ -139,7 +141,9 @@ export default function PerformanceBarChart({
                 className={styles.navButton}
                 onClick={() => setBpmStartDate(prev => addDays(prev, 7))}
               >
-                &gt;
+                <svg width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2 10L6 6L2 2" strokeLinecap="round"/>
+                </svg>
               </button>
             </div>
           </div>
@@ -244,12 +248,14 @@ export default function PerformanceBarChart({
         >
           <div className={styles.headerRow}>
             <h4 className={styles.titleAccent}>{averageBPM} bpm</h4>
-            <div>
+            <div className={styles.navContainer}>
               <button 
                 className={styles.navButton}
                 onClick={() => setStartDate(prev => subtractDays(prev, 7))}
               >
-                &lt;
+                <svg width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ transform: 'scaleX(-1)' }}>
+                  <path d="M2 10L6 6L2 2" strokeLinecap="round"/>
+                </svg>
               </button>
               <span className={styles.navSpan}>
                 {formatDate(bpmStartDate)} - {formatDate(endDate)}
@@ -258,7 +264,9 @@ export default function PerformanceBarChart({
                 className={styles.navButton}
                 onClick={() => setStartDate(prev => addDays(prev, 7))}
               >
-                &gt;
+                <svg width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2 10L6 6L2 2" strokeLinecap="round"/>
+                </svg>
               </button>
             </div>
           </div>

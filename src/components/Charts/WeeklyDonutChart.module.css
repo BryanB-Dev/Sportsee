@@ -10,6 +10,11 @@
   background: #ffffff;
   box-shadow: 0px 4px 84px -40px rgba(157, 167, 251, 0.4);
   border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.container:hover {
+  box-shadow: 0px 4px 54px -18px #9DA7FB99;
 }
 
 .header {
