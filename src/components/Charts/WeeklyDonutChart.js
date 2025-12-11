@@ -11,12 +11,13 @@ export default function WeeklyDonutChart({
   const actualSessions = Math.min(sessionsCount, maxSessions);
   const remaining = Math.max(0, maxSessions - sessionsCount);
   
+  // Inverser l'ordre : partie claire d'abord, partie foncée ensuite
   const data = [
-    { name: 'Réalisées', value: actualSessions },
-    { name: 'Restantes', value: remaining }
+    { name: 'Restantes', value: remaining },
+    { name: 'Réalisées', value: actualSessions }
   ];
 
-  const colors = ['#0B23F4', '#B6BDFC'];
+  const colors = ['#B6BDFC', '#0B23F4'];
 
   return (
     <section className={styles.container}>

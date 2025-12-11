@@ -1,7 +1,7 @@
 // Service API pour gérer les appels vers le backend
 
-const API_BASE_URL = 'http://localhost:8000/api';
-let USE_MOCK_DATA = true;
+// Import de la configuration centralisée
+import { USE_MOCK_DATA, getEndpointUrl } from '../config/dataSource.js';
 
 // Import des données mockées
 import { 
@@ -35,6 +35,17 @@ const getAuthHeaders = (token) => ({
  */
 const handleApiError = (error, fallbackMessage) => {
   console.error('API Error:', error);
+  
+  // Erreur de connexion réseau
+  if (error.message === 'Failed to fetch' || error.name === 'TypeError') {
+    throw new Error('Impossible de se connecter au serveur. Vérifiez que le backend est lancé sur http://localhost:8000');
+  }
+  
+  // Erreur de timeout
+  if (error.name === 'AbortError') {
+    throw new Error('Le serveur met trop de temps à répondre. Vérifiez que le backend est lancé.');
+  }
+  
   throw new Error(fallbackMessage || 'Erreur lors de la communication avec le serveur');
 };
 
@@ -54,11 +65,17 @@ export const authService = {
     }
 
     try {
-      const response = await fetch(`${API_BASE_URL}/login`, {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 secondes timeout
+
+      const response = await fetch(getEndpointUrl('login'), {
         method: 'POST',
         ...fetchConfig,
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({ username, password }),
+        signal: controller.signal
       });
+
+      clearTimeout(timeoutId);
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
@@ -145,11 +162,20 @@ export const userService = {
     }
 
     try {
-      const response = await fetch(`${API_BASE_URL}/user-info`, {
-        headers: getAuthHeaders(token)
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 secondes timeout
+
+      const response = await fetch(getEndpointUrl('userInfo'), {
+        headers: getAuthHeaders(token),
+        signal: controller.signal
       });
 
+      clearTimeout(timeoutId);
+
       if (!response.ok) {
+        if (response.status === 401 || response.status === 403) {
+          throw new Error('Session expirée. Veuillez vous reconnecter.');
+        }
         throw new Error('Erreur lors de la récupération des informations utilisateur');
       }
 
@@ -178,7 +204,7 @@ export const userService = {
     }
 
     try {
-      let url = `${API_BASE_URL}/user-activity`;
+      let url = getEndpointUrl('userActivity');
       
       // Ajouter les paramètres de date si fournis
       if (startWeek && endWeek) {
@@ -186,11 +212,20 @@ export const userService = {
         url += `?${params.toString()}`;
       }
 
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 secondes timeout
+
       const response = await fetch(url, {
-        headers: getAuthHeaders(token)
+        headers: getAuthHeaders(token),
+        signal: controller.signal
       });
 
+      clearTimeout(timeoutId);
+
       if (!response.ok) {
+        if (response.status === 401 || response.status === 403) {
+          throw new Error('Session expirée. Veuillez vous reconnecter.');
+        }
         throw new Error('Erreur lors de la récupération de l\'activité');
       }
 
@@ -218,7 +253,7 @@ export const healthService = {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 secondes de timeout
 
-      const response = await fetch(`${API_BASE_URL}/health`, {
+      const response = await fetch(`${getEndpointUrl('userInfo').replace('/api/user-info', '')}/health`, {
         signal: controller.signal,
         method: 'GET'
       });
@@ -236,14 +271,6 @@ export const healthService = {
  */
 export const apiConfig = {
   /**
-   * Basculer entre mock et vraie API
-   * @param {boolean} useMock - true pour utiliser les mocks, false pour la vraie API
-   */
-  setMockMode(useMock) {
-    USE_MOCK_DATA = useMock;
-  },
-
-  /**
    * Obtenir l'état actuel du mode mock
    * @returns {boolean}
    */
@@ -256,7 +283,7 @@ export const apiConfig = {
    * @returns {string}
    */
   getBaseUrl() {
-    return API_BASE_URL;
+    return getEndpointUrl('userInfo').replace('/api/user-info', '');
   }
 };
 

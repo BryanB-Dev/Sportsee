@@ -96,9 +96,11 @@ export default function Dashboard() {
     ? Math.round(parseFloat(metrics.averageHeartRate)) 
     : 0;
   
-  const sessionsCount = metrics?.weeklyPerformance.sessionsCount || 4;
-  const totalDuration = Math.round(metrics?.weeklyPerformance.totalDuration || 140);
-  const weeklyDistance = Math.round(metrics?.weeklyPerformance.totalDistance || 21.7);
+  const sessionsCount = metrics?.weeklyPerformance.sessionsCount || 0;
+  const totalDuration = Math.round(metrics?.weeklyPerformance.totalDuration || 0);
+  const weeklyDistance = parseFloat(metrics?.weeklyPerformance.totalDistance || 0);
+  const weekStart = metrics?.weeklyPerformance.weekStart;
+  const weekEnd = metrics?.weeklyPerformance.weekEnd;
 
   // Données pour le graphique des kilomètres (basées sur les vraies données d'activité)
   const kilometersData = activity && activity.length > 0
@@ -208,6 +210,8 @@ export default function Dashboard() {
           maxSessions={6}
           totalDuration={totalDuration}
           totalDistance={weeklyDistance}
+          weekStart={weekStart}
+          weekEnd={weekEnd}
           isLoading={dataLoading}
         />
       </main>

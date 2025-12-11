@@ -4,10 +4,12 @@ import WeeklyDonutChart from '../Charts/WeeklyDonutChart';
 import styles from './WeeklySection.module.css';
 
 export default function WeeklySection({ 
-  sessionsCount = 4,
+  sessionsCount = 0,
   maxSessions = 6,
-  totalDuration = 140,
-  totalDistance = 21.7,
+  totalDuration = 0,
+  totalDistance = 0,
+  weekStart,
+  weekEnd,
   isLoading = false 
 }) {
   if (isLoading) {
@@ -30,7 +32,9 @@ export default function WeeklySection({
     <section className={styles.weeklySection}>
       <div className={styles.sectionHeader}>
         <h2 className={styles.sectionTitle}>Cette semaine</h2>
-        <p className={styles.sectionSubtitle}>Du 23/06/2025 au 30/06/2025</p>
+        <p className={styles.sectionSubtitle}>
+          {weekStart && weekEnd ? `Du ${weekStart} au ${weekEnd}` : 'Cette semaine'}
+        </p>
       </div>
       
       <div className={styles.weeklyGrid}>

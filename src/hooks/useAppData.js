@@ -31,11 +31,22 @@ export function useDashboardMetrics() {
       : 0;
 
     // Performance cette semaine (basé sur les 7 derniers jours)
+    const today = new Date();
+    const sevenDaysAgo = new Date(today);
+    sevenDaysAgo.setDate(today.getDate() - 7);
+    
+    const weeklyActivities = activity.filter(session => {
+      const sessionDate = new Date(session.date);
+      return sessionDate >= sevenDaysAgo && sessionDate <= today;
+    });
+    
     const weeklyPerformance = {
-      sessionsCount: activity.length,
-      totalDistance: activity.reduce((sum, session) => sum + session.distance, 0),
-      totalDuration: activity.reduce((sum, session) => sum + session.duration, 0),
-      totalCalories: activity.reduce((sum, session) => sum + session.caloriesBurned, 0)
+      sessionsCount: weeklyActivities.length,
+      totalDistance: parseFloat(weeklyActivities.reduce((sum, session) => sum + session.distance, 0).toFixed(1)),
+      totalDuration: weeklyActivities.reduce((sum, session) => sum + session.duration, 0),
+      totalCalories: weeklyActivities.reduce((sum, session) => sum + session.caloriesBurned, 0),
+      weekStart: sevenDaysAgo.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' }),
+      weekEnd: today.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' })
     };
 
     return {

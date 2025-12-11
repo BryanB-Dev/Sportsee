@@ -170,13 +170,22 @@ export function DataProvider({ children }) {
   }, [token, user?.id]);
 
   // Fonction pour charger l'activité utilisateur
-  const loadUserActivity = useCallback(async (startWeek = null, endWeek = null) => {
+  const loadUserActivity = useCallback(async (startWeek = null, endWeek = null, userCreatedAt = null) => {
     if (!token || !user?.id) return;
 
     dispatch({ type: DATA_ACTIONS.LOADING_START, payload: { type: 'Activity' } });
 
     try {
-      const activity = await apiService.user.getUserActivity(token, startWeek, endWeek);
+      // Si pas de dates fournies, utiliser la date d'inscription et aujourd'hui
+      let start = startWeek;
+      let end = endWeek || new Date().toISOString().split('T')[0];
+      
+      // Si pas de date de début, utiliser createdAt passé en paramètre ou fallback
+      if (!start) {
+        start = userCreatedAt || '2025-01-01';
+      }
+      
+      const activity = await apiService.user.getUserActivity(token, start, end);
       dispatch({
         type: DATA_ACTIONS.SET_USER_ACTIVITY,
         payload: { activity }
@@ -191,12 +200,26 @@ export function DataProvider({ children }) {
 
   // Fonction pour charger toutes les données
   const loadAllUserData = useCallback(async () => {
-    await Promise.allSettled([
-      loadUserProfile(),
-      loadUserStatistics(),
-      loadUserActivity()
-    ]);
-  }, [loadUserProfile, loadUserStatistics, loadUserActivity]);
+    try {
+      // Charger le profil d'abord pour obtenir createdAt
+      const userInfo = await apiService.user.getUserInfo(token);
+      
+      // Dispatcher les données du profil et statistiques
+      dispatch({
+        type: DATA_ACTIONS.SET_USER_PROFILE,
+        payload: { profile: userInfo.profile }
+      });
+      dispatch({
+        type: DATA_ACTIONS.SET_USER_STATISTICS,
+        payload: { statistics: userInfo.statistics }
+      });
+      
+      // Charger l'activité avec la date d'inscription
+      await loadUserActivity(null, null, userInfo.profile.createdAt);
+    } catch (error) {
+      console.error('Error loading user data:', error);
+    }
+  }, [token, loadUserActivity]);
 
   // Fonction pour actualiser les données
   const refreshData = useCallback(async () => {
