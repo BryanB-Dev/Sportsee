@@ -118,13 +118,13 @@ export default function Dashboard() {
           
           if (weekData.length > 0) {
             const totalKm = weekData.reduce((sum, session) => sum + session.distance, 0);
-            weeklyData.push({ day: `S${week + 1}`, value: weeklyData.length });
+            weeklyData.push({ day: `S${week + 1}`, value: Math.round(totalKm) });
           }
         }
         
         // Remplir avec des valeurs par défaut si nécessaire
         while (weeklyData.length < 4) {
-          weeklyData.push({ day: `S${weeklyData.length + 1}`, value: weeklyData.length });
+          weeklyData.push({ day: `S${weeklyData.length + 1}`, value: 0 });
         }
         
         return weeklyData;
@@ -133,7 +133,7 @@ export default function Dashboard() {
         { day: 'S1', value: Math.round(weeklyDistance * 0.6) },
         { day: 'S2', value: Math.round(weeklyDistance * 1.2) },
         { day: 'S3', value: Math.round(weeklyDistance * 0.8) },
-        { day: 'S4', value: weeklyDistance }
+        { day: 'S4', value: Math.round(weeklyDistance) }
       ];
 
   // Données pour le graphique BPM (basées sur les vraies données d'activité)
