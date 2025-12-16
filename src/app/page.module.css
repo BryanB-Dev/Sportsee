@@ -14,7 +14,7 @@
   width: 60px;
   height: 60px;
   border: 6px solid var(--border);
-  border-top: 6px solid var(--primary);
+  border-top: 6px solid var(--secondary);
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: 30px;
@@ -22,7 +22,7 @@
 
 /* Titre principal */
 .mainTitle {
-  color: var(--primary);
+  color: var(--secondary);
   font-size: 3rem;
   font-weight: 700;
   margin: 0 0 15px 0;
