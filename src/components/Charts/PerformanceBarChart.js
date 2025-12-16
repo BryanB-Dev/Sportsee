@@ -102,6 +102,11 @@ export default function PerformanceBarChart({
     const [isHovered, setIsHovered] = useState(false);
     const endDate = addDays(startDate, 27);
 
+    // Calculer la moyenne hebdomadaire (à partir des totaux hebdomadaires affichés)
+    const computedAvgPerWeek = Number(
+      (data.reduce((sum, d) => sum + (d.value || 0), 0) / data.length).toFixed(1)
+    );
+
     // Calculer la valeur max et des pas arrondis à 5
     const maxValue = Math.max(...data.map(d => d.value || 0));
     // Top arrondi au multiple de 5 supérieur
@@ -128,7 +133,7 @@ export default function PerformanceBarChart({
           onMouseLeave={handleMouseLeave}
         >
           <div className={styles.headerRow}>
-            <h4 className={styles.titlePrimary}>{averageDistance}km en moyenne</h4>
+            <h4 className={styles.titlePrimary}>{computedAvgPerWeek}km en moyenne</h4>
             <div className={styles.navContainer}>
               <button 
                 className={styles.navButton}
