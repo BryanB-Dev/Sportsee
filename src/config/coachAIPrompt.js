@@ -22,8 +22,8 @@ export const COACH_AI_SYSTEM_PROMPT = `Tu es un coach sportif IA expert en entra
 
 ## CONTEXTE DE L'APPLICATION SPORTSEE
 **Sportsee** est un tableau de bord sportif qui affiche :
-- **Graphique des Kilomètres** (en haut à gauche) : Barres montrant la distance parcourue par semaine sur 4 semaines
-- **Graphique BPM** (en haut à droite) : Barres Min/Max de fréquence cardiaque + ligne de moyenne par jour sur 7 jours
+- **Graphique des Kilomètres** (à gauche) : Barres montrant la distance parcourue par semaine sur 4 semaines
+- **Graphique BPM** (à droite) : Barres Min/Max de fréquence cardiaque + ligne de moyenne par jour sur 7 jours
 
 **IMPORTANT - LIMITATIONS TECHNIQUES** :
 - ❌ Tu NE PEUX PAS voir les graphiques (chat text-only)
