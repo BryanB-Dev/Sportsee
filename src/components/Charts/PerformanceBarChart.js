@@ -102,12 +102,15 @@ export default function PerformanceBarChart({
     const [isHovered, setIsHovered] = useState(false);
     const endDate = addDays(startDate, 27);
 
-    // Calculer la valeur maximale et l'échelle
+    // Calculer la valeur max et des pas arrondis à 5
     const maxValue = Math.max(...data.map(d => d.value || 0));
-    const maxScale = Math.ceil(maxValue / 10) * 10; // Arrondir au multiple de 10 supérieur
-    const step = Math.ceil(maxScale / 30) * 10; // Calculer le step comme multiple de 10
-    const ticks = [0, step, step * 2, step * 3]; // 4 graduations avec des multiples de 10
-    const actualMaxScale = step * 3; // La vraie échelle max basée sur les steps
+    // Top arrondi au multiple de 5 supérieur
+    const top = Math.max(5, Math.ceil(maxValue / 5) * 5);
+    // Step = tiers de top, arrondi au multiple de 5 supérieur, min 5
+    const step = Math.max(5, Math.ceil((top / 3) / 5) * 5);
+    const actualMaxScale = step * 3;
+    // 4 graduations régulières
+    const ticks = [0, step, step * 2, step * 3];
 
     const handleMouseEnter = () => {
       setIsHovered(true);
@@ -163,7 +166,6 @@ export default function PerformanceBarChart({
                 />
                 <YAxis 
                   key={`${id}-yaxis`}
-                  yAxisId={id}
                   tickLine={false} 
                   domain={[0, actualMaxScale]} 
                   ticks={ticks} 
@@ -224,16 +226,25 @@ export default function PerformanceBarChart({
     const [isHovered, setIsHovered] = useState(false);
     const endDate = addDays(bpmStartDate, 6);
 
-    // Calculer la valeur maximale et l'échelle pour BPM
+    // Calculer la valeur maximale/minimale et des pas arrondis à la dizaine pour BPM
     const allBpmValues = data.flatMap(d => [d.min || 0, d.max || 0, d.average || 0]);
     const maxBpmValue = Math.max(...allBpmValues);
     const minBpmValue = Math.min(...allBpmValues);
-    const maxBpmScale = Math.ceil(maxBpmValue / 10) * 10;
-    const minBpmScale = Math.floor(minBpmValue / 10) * 10;
-    const bpmRange = maxBpmScale - minBpmScale;
-    const bpmStep = Math.ceil(bpmRange / 30) * 10;
-    const bpmTicks = [minBpmScale, minBpmScale + bpmStep, minBpmScale + bpmStep * 2, minBpmScale + bpmStep * 3];
+
+    // Domain borné par min et max réels, arrondis aux multiples de 5
+    // Ajoute une marge de 10 en dessous du minimum
+    let minBpmScale = Math.floor((minBpmValue - 10) / 5) * 5;
+    let topBpm = Math.max(5, Math.ceil(maxBpmValue / 5) * 5);
+    // Step = tiers de la plage, arrondi au multiple de 5 supérieur, min 5
+    let bpmStep = Math.max(5, Math.ceil(((topBpm - minBpmScale) / 3) / 5) * 5);
+    // Si plage nulle (toutes valeurs identiques), créer une petite plage autour de la valeur (15 = 3 * 5)
+    if (topBpm === minBpmScale) {
+      minBpmScale = Math.max(0, minBpmScale - 5);
+      topBpm = minBpmScale + 15;
+      bpmStep = 5;
+    }
     const actualMaxBpmScale = minBpmScale + bpmStep * 3;
+    const bpmTicks = [minBpmScale, minBpmScale + bpmStep, minBpmScale + bpmStep * 2, minBpmScale + bpmStep * 3];
 
     const handleMouseEnter = () => {
       setIsHovered(true);
@@ -290,7 +301,6 @@ export default function PerformanceBarChart({
               />
               <YAxis 
                 key={`${id}-yaxis`}
-                yAxisId={id}
                 tickLine={false} 
                 domain={[minBpmScale, actualMaxBpmScale]} 
                 ticks={bpmTicks} 
