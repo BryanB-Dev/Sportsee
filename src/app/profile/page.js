@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '../../contexts/AuthContext';
 import { useDashboardMetrics } from '../../hooks/useAppData';
 import { useData } from '../../contexts/DataContext';
+import ChatAIModal from '../../components/ChatAI/ChatAIModal';
 
 // Import des composants
 import Header from '../../components/Header/Header';
@@ -22,6 +23,7 @@ export default function Profile() {
   const { activity } = useData();
   const router = useRouter();
   const [isRedirecting, setIsRedirecting] = useState(false);
+  const [coachOpen, setCoachOpen] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !isAuthenticated) {
@@ -93,7 +95,11 @@ export default function Profile() {
   return (
     <div className={styles.container}>
       {/* Header */}
-      <Header onLogout={handleLogout} userName={userData.firstName} />
+      <Header
+        onLogout={handleLogout}
+        userName={userData.firstName}
+        onOpenCoach={() => setCoachOpen(true)}
+      />
 
       <main className={styles.main}>
         <div className={styles.profileContainer}>
@@ -107,6 +113,8 @@ export default function Profile() {
           <ProfileStats userData={userData} stats={stats} />
         </div>
       </main>
+
+      <ChatAIModal open={coachOpen} onClose={() => setCoachOpen(false)} />
 
       {/* Footer */}
       <Footer />
