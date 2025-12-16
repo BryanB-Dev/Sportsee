@@ -10,7 +10,7 @@ import MarkdownMessage from "./MarkdownMessage";
 
 export default function ChatAIModal({ open, onClose }) {
   const { user } = useAuth();
-  const { activity, statistics } = useData();
+  const { activity, statistics, profile } = useData();
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -26,6 +26,9 @@ export default function ChatAIModal({ open, onClose }) {
       activities: activity
     });
   }, [user, statistics, activity]);
+
+  const avatarUrl = profile?.profilePicture || "/default-avatar.svg";
+  const avatarAlt = profile ? `${profile.firstName} ${profile.lastName}` : "Profil";
 
   const canSend = useMemo(() => !loading && input.trim().length > 0, [loading, input]);
 
@@ -124,11 +127,7 @@ export default function ChatAIModal({ open, onClose }) {
             m.role === 'user' ? (
               <div className={styles.userRow} key={idx}>
                 <div className={styles.userBubble}><p className={styles.userText}>{m.content}</p></div>
-                {user?.profilePicture ? (
-                  <img src={user.profilePicture} alt="Profil" className={styles.userAvatar} />
-                ) : (
-                  <div className={styles.userAvatar} aria-hidden="true" />
-                )}
+                <img src={avatarUrl} alt={avatarAlt} className={styles.userAvatar} />
               </div>
             ) : (
               <div className={styles.assistantRow} key={idx}>
