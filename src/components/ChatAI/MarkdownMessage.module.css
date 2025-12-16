@@ -1,0 +1,104 @@
+/* Markdown rendering styles for chat messages */
+
+.markdown {
+  color: inherit;
+  line-height: 1.6;
+  word-wrap: break-word;
+}
+
+.paragraph {
+  margin: 0 0 0.75em 0;
+}
+
+.paragraph:last-child {
+  margin-bottom: 0;
+}
+
+/* Headings */
+.h1,
+.h2,
+.h3 {
+  margin: 1em 0 0.5em 0;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.h1 {
+  font-size: 1.5em;
+}
+
+.h2 {
+  font-size: 1.3em;
+}
+
+.h3 {
+  font-size: 1.1em;
+}
+
+/* Lists */
+.ul,
+.ol {
+  margin: 0.5em 0;
+  padding-left: 1.5em;
+}
+
+.li {
+  margin: 0.25em 0;
+}
+
+.li > .paragraph {
+  margin: 0;
+}
+
+/* Code */
+.inlineCode {
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 0.15em 0.4em;
+  border-radius: 3px;
+  font-family: 'Courier New', Consolas, monospace;
+  font-size: 0.9em;
+}
+
+.pre {
+  background-color: #f6f8fa;
+  border-radius: 6px;
+  padding: 1em;
+  overflow-x: auto;
+  margin: 0.75em 0;
+}
+
+.codeBlock {
+  font-family: 'Courier New', Consolas, monospace;
+  font-size: 0.9em;
+  line-height: 1.5;
+  display: block;
+}
+
+/* Links */
+.link {
+  color: #e60000;
+  text-decoration: underline;
+  transition: opacity 0.2s;
+}
+
+.link:hover {
+  opacity: 0.8;
+}
+
+/* Emphasis */
+.strong {
+  font-weight: 600;
+}
+
+.em {
+  font-style: italic;
+}
+
+/* Blockquote */
+.blockquote {
+  border-left: 3px solid #e60000;
+  padding-left: 1em;
+  margin: 0.75em 0;
+  color: #666;
+  font-style: italic;
+}

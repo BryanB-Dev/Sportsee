@@ -14,6 +14,7 @@ import PerformanceCharts from '../../components/PerformanceCharts/PerformanceCha
 import WeeklySection from '../../components/WeeklySection/WeeklySection';
 import PerformanceBarChart from '../../components/Charts/PerformanceBarChart';
 import Footer from '../../components/Footer/Footer';
+import ChatAIModal from '../../components/ChatAI/ChatAIModal';
 
 // Import du CSS Module
 import styles from './dashboard.module.css';
@@ -26,6 +27,7 @@ export default function Dashboard() {
   const { activity } = useData(); // Accès direct aux données d'activité
   const router = useRouter();
   const [isRedirecting, setIsRedirecting] = useState(false);
+  const [coachOpen, setCoachOpen] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !isAuthenticated) {
@@ -58,7 +60,7 @@ export default function Dashboard() {
   if (hasAnyError) {
     return (
       <div className={styles.container}>
-        <Header onLogout={handleLogout} />
+        <Header onLogout={handleLogout} onOpenCoach={() => setCoachOpen(true)} />
         <main className={styles.errorContainer}>
           <div>
             <h2>Erreur de chargement des données</h2>
@@ -116,13 +118,13 @@ export default function Dashboard() {
           
           if (weekData.length > 0) {
             const totalKm = weekData.reduce((sum, session) => sum + session.distance, 0);
-            weeklyData.push({ day: `S${week + 1}`, value: Math.round(totalKm * 10) / 10 });
+            weeklyData.push({ day: `S${week + 1}`, value: weeklyData.length });
           }
         }
         
         // Remplir avec des valeurs par défaut si nécessaire
         while (weeklyData.length < 4) {
-          weeklyData.push({ day: `S${weeklyData.length + 1}`, value: 0 });
+          weeklyData.push({ day: `S${weeklyData.length + 1}`, value: weeklyData.length });
         }
         
         return weeklyData;
@@ -142,7 +144,8 @@ export default function Dashboard() {
           day: dayNames[index] || `J${index + 1}`,
           min: session.heartRate.min,
           max: session.heartRate.max,
-          average: session.heartRate.average
+          average: session.heartRate.average,
+          value: index
         };
       })
     : [
@@ -158,7 +161,7 @@ export default function Dashboard() {
   return (
     <div className={styles.container}>
       {/* Header */}
-      <Header onLogout={handleLogout} />
+      <Header onLogout={handleLogout} onOpenCoach={() => setCoachOpen(true)} />
 
       <main className={styles.main}>
         {/* Section d'introduction */}
@@ -181,6 +184,7 @@ export default function Dashboard() {
             isLoading={chartsLoading}
             customLeftChart={
               <PerformanceBarChart
+                id="km-chart"
                 data={kilometersData}
                 title="Kilomètres parcourus"
                 color="#B6BDFC"
@@ -192,6 +196,7 @@ export default function Dashboard() {
             }
             customRightChart={
               <PerformanceBarChart
+                id="bpm-chart"
                 data={heartRateData}
                 title="Fréquence cardiaque"
                 color="#F4320B"
@@ -218,6 +223,7 @@ export default function Dashboard() {
 
       {/* Footer */}
       <Footer />
+      <ChatAIModal open={coachOpen} onClose={() => setCoachOpen(false)} />
     </div>
   );
 }

@@ -42,8 +42,8 @@ const renderLegend = ({ payload }) => {
 
   return (
     <div className={styles.legendWrapper}>
-      {payload.map((entry) => (
-        <div key={entry.value} className={styles.legendItem}>
+      {payload.map((entry, key) => (
+        <div key={key} className={styles.legendItem}>
           <span
             className={styles.legendIcon}
             style={{ backgroundColor: entry.color }}
@@ -56,6 +56,7 @@ const renderLegend = ({ payload }) => {
 };
 
 export default function PerformanceBarChart({ 
+  id = 'chart',
   data, 
   title, 
   color = "#6366f1", 
@@ -153,6 +154,7 @@ export default function PerformanceBarChart({
               <BarChart data={data} margin={{ top: 10, right: 0, left: 0, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f1f1f1" horizontal={true} vertical={false} />
                 <XAxis 
+                  key={`${id}-xaxis`}
                   dataKey="day" 
                   orientation="bottom" 
                   dy={10} 
@@ -160,6 +162,8 @@ export default function PerformanceBarChart({
                   tick={{fontSize:12}}
                 />
                 <YAxis 
+                  key={`${id}-yaxis`}
+                  yAxisId={id}
                   tickLine={false} 
                   domain={[0, actualMaxScale]} 
                   ticks={ticks} 
@@ -276,6 +280,7 @@ export default function PerformanceBarChart({
               <ComposedChart data={data} margin={{ top: 10, right: 0, left: 0, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f1f1f1" horizontal={true} vertical={false} />
                 <XAxis 
+                key={`${id}-xaxis`}
                 dataKey="day" 
                 orientation="bottom" 
                 dy={10} 
@@ -284,6 +289,8 @@ export default function PerformanceBarChart({
                 axisLine={true}
               />
               <YAxis 
+                key={`${id}-yaxis`}
+                yAxisId={id}
                 tickLine={false} 
                 domain={[minBpmScale, actualMaxBpmScale]} 
                 ticks={bpmTicks} 

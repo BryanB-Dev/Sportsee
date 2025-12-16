@@ -4,6 +4,8 @@
 // - Adds safe logging (no sensitive content)
 // - Handles timeouts and API errors gracefully
 
+import { buildMessagesWithSystem } from "@/config/coachAIPrompt";
+
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
@@ -18,9 +20,13 @@ const ALLOWED_MODELS = new Set([
 
 const MAX_MESSAGE_CHARS = 4000; // per message guardrail
 const MAX_TOTAL_CHARS = 6000; // total across messages to avoid over-limit
-const MAX_TOKENS = 1024; // model output cap
+const MAX_TOKENS = 2048; // model output cap - augmenté pour des réponses plus complètes
 const DEFAULT_TEMPERATURE = 0.7;
 const REQUEST_TIMEOUT_MS = 20000; // 20s
+const MIN_REQUEST_INTERVAL_MS = 2000; // simple rate limit: 1 request per 2s per client
+
+// Basic in-memory rate limiter per IP (or per user-agent as fallback)
+const rateLimitStore = new Map(); // key -> lastTimestamp
 
 function sanitizeText(input) {
   return String(input)
@@ -101,7 +107,10 @@ function validateAndNormalizeBody(body) {
   const temperature = typeof body.temperature === "number" ? clamp(body.temperature, 0, 1) : DEFAULT_TEMPERATURE;
   const max_tokens = typeof body.max_tokens === "number" ? clamp(Math.floor(body.max_tokens), 1, MAX_TOKENS) : Math.min(MAX_TOKENS, 512);
 
-  return { messages, model, temperature, max_tokens, totalChars };
+  // Gérer le contexte utilisateur optionnel
+  const userContext = typeof body.userContext === "string" ? sanitizeText(body.userContext).slice(0, 2000) : null;
+
+  return { messages, model, temperature, max_tokens, totalChars, userContext };
 }
 
 export async function POST(req) {
@@ -127,7 +136,25 @@ export async function POST(req) {
     return new Response(JSON.stringify({ error: normalized.error }), { status, headers: { "Content-Type": "application/json" } });
   }
 
-  const { messages, model, temperature, max_tokens, totalChars } = normalized;
+  const { messages, model, temperature, max_tokens, totalChars, userContext } = normalized;
+
+  // Inject the Coach AI system prompt and optional user context
+  const withSystem = buildMessagesWithSystem(messages);
+  const enrichedMessages = userContext
+    ? [withSystem[0], { role: "system", content: userContext }, ...withSystem.slice(1)]
+    : withSystem;
+
+  // Rate limit check
+  const clientKey = req.headers.get("x-forwarded-for") || req.headers.get("user-agent") || "unknown";
+  const now = Date.now();
+  const last = rateLimitStore.get(clientKey) || 0;
+  if (now - last < MIN_REQUEST_INTERVAL_MS) {
+    return new Response(
+      JSON.stringify({ error: "Trop de requêtes. Réessayez dans un instant." }),
+      { status: 429, headers: { "Content-Type": "application/json", "Cache-Control": "no-store" } }
+    );
+  }
+  rateLimitStore.set(clientKey, now);
 
   // Safe request logging (no content, just counts/metadata)
   const requestId = (globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`);
@@ -152,7 +179,7 @@ export async function POST(req) {
       },
       body: JSON.stringify({
         model,
-        messages,
+        messages: enrichedMessages,
         temperature,
         max_tokens,
         stream: false,

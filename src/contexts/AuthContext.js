@@ -28,7 +28,9 @@ const cookieUtils = {
     if (typeof document !== 'undefined') {
       const expires = new Date();
       expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
-      document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/;secure;samesite=strict`;
+      const isProd = typeof window !== 'undefined' && window.location && /^https:/i.test(window.location.origin);
+      const secureFlag = isProd ? ';secure' : '';
+      document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/${secureFlag};samesite=strict`;
     }
   },
   

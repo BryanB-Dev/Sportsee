@@ -2,7 +2,7 @@
 import { usePathname } from 'next/navigation';
 import styles from './Header.module.css';
 
-export default function Header({ onLogout }) {
+export default function Header({ onLogout, onOpenCoach }) {
   const pathname = usePathname();
   
   // Fonction pour déterminer si un lien est actif
@@ -94,7 +94,7 @@ export default function Header({ onLogout }) {
           <div className={styles.navContent}>
             <div className={styles.navLinks}>
               <a href="/dashboard" className={getLinkClass('dashboard')}>Dashboard</a>
-              <a href="#" className={getLinkClass('coach')}>Coach AI</a>
+              <a href="#" className={getLinkClass('coach')} onClick={(e) => { e.preventDefault(); onOpenCoach && onOpenCoach(); }}>Coach AI</a>
               <a href="/profile" className={getLinkClass('profile')}>Mon profil</a>
             </div>
             <div className={styles.logoutSection}>

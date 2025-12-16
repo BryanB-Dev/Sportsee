@@ -58,11 +58,6 @@ export default function Login() {
     }));
   };
 
-  // Fonction pour remplir automatiquement les identifiants de test
-  const fillTestCredentials = (username, password) => {
-    setCredentials({ username, password });
-  };
-
   return (
     <div className={styles.loginContainer}>
       {/* Colonne gauche */}
@@ -190,38 +185,6 @@ export default function Login() {
           </form>
         </div>
         
-        {/* Modale de comptes test */}
-        <div className={styles.testAccountsModal}>
-          <div className={styles.testAccountsContent}>
-            <p className={styles.testAccountsTitle}>Comptes de test :</p>
-            <div className={styles.testButtonsContainer}>
-              <button
-                type="button"
-                className={styles.testAccountButton}
-                onClick={() => fillTestCredentials('sophiemartin', 'password123')}
-                disabled={isLoading}
-              >
-                Sophie Martin
-              </button>
-              <button
-                type="button"
-                className={styles.testAccountButton}
-                onClick={() => fillTestCredentials('emmaleroy', 'password789')}
-                disabled={isLoading}
-              >
-                Emma Leroy
-              </button>
-              <button
-                type="button"
-                className={styles.testAccountButton}
-                onClick={() => fillTestCredentials('marcdubois', 'password456')}
-                disabled={isLoading}
-              >
-                Marc Dubois
-              </button>
-            </div>
-          </div>
-        </div>
       </div>
       
       {/* Image de fond à droite */}
