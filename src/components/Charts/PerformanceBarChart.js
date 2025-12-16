@@ -196,7 +196,7 @@ export default function PerformanceBarChart({
                             {formatTooltipDate(weekStartDate)} - {formatTooltipDate(weekEndDate)}
                           </div>
                           <div className={styles.tooltipValue}>
-                            {payload[0].value} km
+                            {Number(payload[0].value).toFixed(1)} km
                           </div>
                         </div>
                       );
