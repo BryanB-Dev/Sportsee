@@ -38,6 +38,7 @@ export const mockUserInfo = {
       age: 32,
       weight: 60,
       height: 165,
+      gender: 'female',
       profilePicture: 'http://localhost:8000/images/sophie.jpg'
     },
     statistics: {
@@ -54,6 +55,7 @@ export const mockUserInfo = {
       age: 28,
       weight: 55,
       height: 160,
+      gender: 'female',
       profilePicture: 'http://localhost:8000/images/emma.jpg'
     },
     statistics: {
@@ -70,6 +72,7 @@ export const mockUserInfo = {
       age: 35,
       weight: 75,
       height: 180,
+      gender: 'male',
       profilePicture: 'http://localhost:8000/images/marc.jpg'
     },
     statistics: {
