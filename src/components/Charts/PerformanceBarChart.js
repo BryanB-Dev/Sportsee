@@ -100,7 +100,24 @@ export default function PerformanceBarChart({
   // Style pour le graphique des kilomètres
   if (isKilometersChart) {
     const [isHovered, setIsHovered] = useState(false);
-    const endDate = addDays(startDate, 27);
+
+    // Calculer les dates correctes : 4 dernières semaines complètes (lundi à dimanche)
+    const today = new Date();
+    const currentDayOfWeek = today.getDay(); // 0 = dimanche, 1 = lundi, ...
+    const daysSinceMonday = currentDayOfWeek === 0 ? 6 : currentDayOfWeek - 1; // jours depuis lundi
+    
+    // Lundi de cette semaine
+    const mondayThisWeek = new Date(today);
+    mondayThisWeek.setDate(mondayThisWeek.getDate() - daysSinceMonday);
+    mondayThisWeek.setHours(0, 0, 0, 0);
+    
+    // Lundi de 4 semaines avant
+    const mondayFourWeeksAgo = new Date(mondayThisWeek);
+    mondayFourWeeksAgo.setDate(mondayFourWeeksAgo.getDate() - 28);
+    
+    // Dimanche de la semaine avant cette semaine (derniers 4 jours de la 4e semaine)
+    const sundayLastWeek = new Date(mondayThisWeek);
+    sundayLastWeek.setDate(sundayLastWeek.getDate() - 1);
 
     // Calculer la moyenne hebdomadaire (à partir des totaux hebdomadaires affichés)
     const computedAvgPerWeek = Number(
@@ -137,18 +154,18 @@ export default function PerformanceBarChart({
             <div className={styles.navContainer}>
               <button 
                 className={styles.navButton}
-                onClick={() => setBpmStartDate(prev => subtractDays(prev, 7))}
+                onClick={() => {}}
               >
                 <svg width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ transform: 'scaleX(-1)' }}>
                   <path d="M2 10L6 6L2 2" strokeLinecap="round"/>
                 </svg>
               </button>
               <span className={styles.navSpan}>
-                {formatDate(bpmStartDate)} - {formatDate(endDate)}
+                {formatDate(mondayFourWeeksAgo)} - {formatDate(sundayLastWeek)}
               </span>
               <button 
                 className={styles.navButton}
-                onClick={() => setBpmStartDate(prev => addDays(prev, 7))}
+                onClick={() => {}}
               >
                 <svg width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M2 10L6 6L2 2" strokeLinecap="round"/>
@@ -179,9 +196,9 @@ export default function PerformanceBarChart({
                 <Tooltip 
                   content={({ active, payload, label }) => {
                     if (active && payload && payload.length) {
-                      // Calculer les dates de la semaine pour ce point
+                      // Calculer les dates de la semaine pour ce point à partir de mondayFourWeeksAgo
                       const weekIndex = data.findIndex(d => d.day === label);
-                      const weekStartDate = addDays(startDate, weekIndex * 7);
+                      const weekStartDate = addDays(mondayFourWeeksAgo, weekIndex * 7);
                       const weekEndDate = addDays(weekStartDate, 6);
                       
                       const formatTooltipDate = (date) => {
@@ -229,7 +246,20 @@ export default function PerformanceBarChart({
   // Style pour le graphique BPM (copié du graphique km avec ligne de moyenne ajoutée)
   if (isBPMChart) {
     const [isHovered, setIsHovered] = useState(false);
-    const endDate = addDays(bpmStartDate, 6);
+
+    // Calculer les dates correctes : semaine courante (lundi à dimanche)
+    const today = new Date();
+    const currentDayOfWeek = today.getDay(); // 0 = dimanche, 1 = lundi, ...
+    const daysSinceMonday = currentDayOfWeek === 0 ? 6 : currentDayOfWeek - 1; // jours depuis lundi
+    
+    // Lundi de cette semaine
+    const mondayThisWeek = new Date(today);
+    mondayThisWeek.setDate(mondayThisWeek.getDate() - daysSinceMonday);
+    mondayThisWeek.setHours(0, 0, 0, 0);
+    
+    // Dimanche de cette semaine
+    const sundayThisWeek = new Date(mondayThisWeek);
+    sundayThisWeek.setDate(sundayThisWeek.getDate() + 6);
 
     // Calculer la valeur maximale/minimale et des pas arrondis à la dizaine pour BPM
     const allBpmValues = data.flatMap(d => [d.min || 0, d.max || 0, d.average || 0]);
@@ -237,8 +267,8 @@ export default function PerformanceBarChart({
     const minBpmValue = Math.min(...allBpmValues);
 
     // Domain borné par min et max réels, arrondis aux multiples de 5
-    // Ajoute une marge de 10 en dessous du minimum
-    let minBpmScale = Math.floor((minBpmValue - 10) / 5) * 5;
+    // Ajoute une marge de 10 en dessous du minimum, mais pas en dessous de 0
+    let minBpmScale = Math.max(0, Math.floor((minBpmValue - 10) / 5) * 5);
     let topBpm = Math.max(5, Math.ceil(maxBpmValue / 5) * 5);
     // Step = tiers de la plage, arrondi au multiple de 5 supérieur, min 5
     let bpmStep = Math.max(5, Math.ceil(((topBpm - minBpmScale) / 3) / 5) * 5);
@@ -271,18 +301,18 @@ export default function PerformanceBarChart({
             <div className={styles.navContainer}>
               <button 
                 className={styles.navButton}
-                onClick={() => setStartDate(prev => subtractDays(prev, 7))}
+                onClick={() => {}}
               >
                 <svg width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ transform: 'scaleX(-1)' }}>
                   <path d="M2 10L6 6L2 2" strokeLinecap="round"/>
                 </svg>
               </button>
               <span className={styles.navSpan}>
-                {formatDate(bpmStartDate)} - {formatDate(endDate)}
+                {formatDate(mondayThisWeek)} - {formatDate(sundayThisWeek)}
               </span>
               <button 
                 className={styles.navButton}
-                onClick={() => setStartDate(prev => addDays(prev, 7))}
+                onClick={() => {}}
               >
                 <svg width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M2 10L6 6L2 2" strokeLinecap="round"/>

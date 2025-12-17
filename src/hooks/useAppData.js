@@ -70,6 +70,7 @@ export function useDashboardMetrics() {
         age: profile.age,
         weight: profile.weight,
         height: profile.height,
+        gender: profile.gender,
         profilePicture: profile.profilePicture,
         createdAt: profile.createdAt
       }

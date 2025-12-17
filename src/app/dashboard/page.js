@@ -107,24 +107,31 @@ export default function Dashboard() {
   // Données pour le graphique des kilomètres (basées sur les vraies données d'activité)
   const kilometersData = activity && activity.length > 0
     ? (() => {
+        // Filtrer par date : 4 dernières semaines à partir d'aujourd'hui
+        const today = new Date();
+        const fourWeeksAgo = new Date(today);
+        fourWeeksAgo.setDate(fourWeeksAgo.getDate() - 28);
+        
+        const last4WeeksData = activity.filter(session => {
+          const sessionDate = new Date(session.date);
+          return sessionDate >= fourWeeksAgo && sessionDate <= today;
+        });
+        
+        // Grouper par semaine (à partir de fourWeeksAgo)
         const weeklyData = [];
-        const sessionsPerWeek = Math.ceil(activity.length / 4);
-        
-        // Regrouper par semaine (4 semaines)
         for (let week = 0; week < 4; week++) {
-          const startIndex = week * sessionsPerWeek;
-          const endIndex = Math.min((week + 1) * sessionsPerWeek, activity.length);
-          const weekData = activity.slice(startIndex, endIndex);
+          const weekStart = new Date(fourWeeksAgo);
+          weekStart.setDate(weekStart.getDate() + week * 7);
+          const weekEnd = new Date(weekStart);
+          weekEnd.setDate(weekEnd.getDate() + 6);
           
-          if (weekData.length > 0) {
-            const totalKm = weekData.reduce((sum, session) => sum + session.distance, 0);
-            weeklyData.push({ day: `S${week + 1}`, value: parseFloat(totalKm.toFixed(1)) });
-          }
-        }
-        
-        // Remplir avec des valeurs par défaut si nécessaire
-        while (weeklyData.length < 4) {
-          weeklyData.push({ day: `S${weeklyData.length + 1}`, value: 0 });
+          const weekData = last4WeeksData.filter(session => {
+            const sessionDate = new Date(session.date);
+            return sessionDate >= weekStart && sessionDate <= weekEnd;
+          });
+          
+          const totalKm = weekData.reduce((sum, session) => sum + session.distance, 0);
+          weeklyData.push({ day: `S${week + 1}`, value: parseFloat(totalKm.toFixed(1)) });
         }
         
         return weeklyData;
@@ -136,27 +143,59 @@ export default function Dashboard() {
         { day: 'S4', value: parseFloat((weeklyDistance).toFixed(1)) }
       ];
 
-  // Données pour le graphique BPM (basées sur les vraies données d'activité)
-  const heartRateData = activity && activity.length > 0
-    ? activity.slice(0, 7).map((session, index) => {
-        const dayNames = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
-        return {
-          day: dayNames[index] || `J${index + 1}`,
-          min: session.heartRate.min,
-          max: session.heartRate.max,
-          average: session.heartRate.average,
-          value: index
-        };
-      })
-    : [
-        { day: 'Lun', min: 135, max: 165, average: 150 },
-        { day: 'Mar', min: 142, max: 172, average: 157 },
-        { day: 'Mer', min: 145, max: 185, average: 165 },
-        { day: 'Jeu', min: 140, max: 170, average: 155 },
-        { day: 'Ven', min: 137, max: 168, average: 152 },
-        { day: 'Sam', min: 145, max: 163, average: 154 },
-        { day: 'Dim', min: 138, max: 175, average: 156 }
-      ];
+  // Données pour le graphique BPM (semaine en cours : lundi à dimanche)
+  const heartRateData = (() => {
+    const dayNames = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
+    const heartRateChartData = [];
+    
+    // Calculer lundi et dimanche de cette semaine
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const currentDayOfWeek = today.getDay(); // 0 = dimanche, 1 = lundi, ...
+    const daysSinceMonday = currentDayOfWeek === 0 ? 6 : currentDayOfWeek - 1;
+    
+    const mondayThisWeek = new Date(today);
+    mondayThisWeek.setDate(today.getDate() - daysSinceMonday);
+    
+    // Formater la date en YYYY-MM-DD local (pas UTC)
+    const formatLocalDate = (date) => {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    };
+    
+    // Créer un tableau des 7 jours de la semaine (lundi à dimanche)
+    for (let i = 0; i < 7; i++) {
+      const currentDay = new Date(mondayThisWeek);
+      currentDay.setDate(mondayThisWeek.getDate() + i);
+      const dateStr = formatLocalDate(currentDay);
+      
+      // Chercher une session d'activité pour ce jour
+      const sessionForDay = activity?.find(session => session.date === dateStr);
+      
+      if (sessionForDay) {
+        heartRateChartData.push({
+          day: dayNames[i],
+          min: sessionForDay.heartRate.min,
+          max: sessionForDay.heartRate.max,
+          average: sessionForDay.heartRate.average,
+          value: i
+        });
+      } else {
+        // Aucune donnée pour ce jour
+        heartRateChartData.push({
+          day: dayNames[i],
+          min: 0,
+          max: 0,
+          average: 0,
+          value: i
+        });
+      }
+    }
+    
+    return heartRateChartData;
+  })();
 
   return (
     <div className={styles.container}>
