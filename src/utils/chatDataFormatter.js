@@ -69,51 +69,108 @@ export function formatUserProfile(user, statistics) {
 }
 
 /**
- * Calcule les métriques de performance récentes
+ * Calcule les métriques de performance basées sur les graphiques affichés
  * @param {Array} activities - Tableau des activités
- * @returns {string} Texte formaté des métriques
+ * @returns {string} Texte formaté des métriques avec les données des graphiques
  */
 export function formatPerformanceMetrics(activities) {
   if (!activities || activities.length === 0) {
     return "Aucune métrique de performance disponible.";
   }
 
-  const recentActivities = activities.slice(-10);
+  // ===== DONNÉES DU GRAPHIQUE KM (4 dernières semaines) =====
+  const today = new Date();
+  const fourWeeksAgo = new Date(today);
+  fourWeeksAgo.setDate(fourWeeksAgo.getDate() - 28);
   
-  // Calculs de moyennes
-  const totalDistance = recentActivities.reduce((sum, a) => sum + (a.distance || 0), 0);
-  const totalDuration = recentActivities.reduce((sum, a) => sum + (a.duration || 0), 0);
-  const avgDistance = (totalDistance / recentActivities.length).toFixed(1);
-  const avgDuration = (totalDuration / recentActivities.length).toFixed(0);
+  const last4WeeksData = activities.filter(session => {
+    const sessionDate = new Date(session.date);
+    return sessionDate >= fourWeeksAgo && sessionDate <= today;
+  });
   
-  // Fréquence cardiaque - extraire la valeur average si c'est un objet
-  const heartRates = recentActivities
-    .filter(a => a.heartRate)
-    .map(a => a.heartRate?.average || a.heartRate)
-    .filter(hr => typeof hr === 'number' && !isNaN(hr));
-  
-  const avgHeartRate = heartRates.length > 0 
-    ? (heartRates.reduce((sum, hr) => sum + hr, 0) / heartRates.length).toFixed(0)
-    : 'N/A';
-
-  // Tendance (comparaison dernière semaine vs précédente)
-  const lastWeek = activities.slice(-7);
-  const previousWeek = activities.slice(-14, -7);
-  
-  let trend = "stable";
-  if (lastWeek.length > 0 && previousWeek.length > 0) {
-    const lastWeekAvg = lastWeek.reduce((sum, a) => sum + (a.distance || 0), 0) / lastWeek.length;
-    const prevWeekAvg = previousWeek.reduce((sum, a) => sum + (a.distance || 0), 0) / previousWeek.length;
+  // Grouper par semaine comme dans le graphique KM
+  const weeklyData = [];
+  for (let week = 0; week < 4; week++) {
+    const weekStart = new Date(fourWeeksAgo);
+    weekStart.setDate(weekStart.getDate() + week * 7);
+    const weekEnd = new Date(weekStart);
+    weekEnd.setDate(weekEnd.getDate() + 6);
     
-    if (lastWeekAvg > prevWeekAvg * 1.1) trend = "en progression";
-    else if (lastWeekAvg < prevWeekAvg * 0.9) trend = "en baisse";
+    const weekData = last4WeeksData.filter(session => {
+      const sessionDate = new Date(session.date);
+      return sessionDate >= weekStart && sessionDate <= weekEnd;
+    });
+    
+    const totalKm = weekData.reduce((sum, session) => sum + session.distance, 0);
+    weeklyData.push({
+      week: week + 1,
+      totalKm: parseFloat(totalKm.toFixed(1)),
+      sessions: weekData.length
+    });
   }
 
-  return `Métriques des 10 dernières séances:
-- Distance moyenne: ${avgDistance}km
-- Durée moyenne: ${avgDuration}min
-- Fréquence cardiaque moyenne: ${avgHeartRate} bpm
-- Tendance: ${trend}`;
+  // ===== DONNÉES DU GRAPHIQUE BPM (semaine courante) =====
+  today.setHours(0, 0, 0, 0);
+  const currentDayOfWeek = today.getDay();
+  const daysSinceMonday = currentDayOfWeek === 0 ? 6 : currentDayOfWeek - 1;
+  
+  const mondayThisWeek = new Date(today);
+  mondayThisWeek.setDate(today.getDate() - daysSinceMonday);
+  
+  const sundayThisWeek = new Date(mondayThisWeek);
+  sundayThisWeek.setDate(mondayThisWeek.getDate() + 6);
+
+  const dayNames = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+  const formatLocalDate = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
+  const weeklyBPMData = [];
+  for (let i = 0; i < 7; i++) {
+    const currentDay = new Date(mondayThisWeek);
+    currentDay.setDate(mondayThisWeek.getDate() + i);
+    const dateStr = formatLocalDate(currentDay);
+    
+    const sessionForDay = activities.find(session => session.date === dateStr);
+    
+    if (sessionForDay) {
+      weeklyBPMData.push({
+        day: dayNames[i],
+        date: dateStr,
+        min: sessionForDay.heartRate.min,
+        max: sessionForDay.heartRate.max,
+        average: sessionForDay.heartRate.average
+      });
+    }
+  }
+
+  // ===== FORMATAGE DU CONTEXTE =====
+  let result = "📊 DONNÉES DES GRAPHIQUES:\n\n";
+  
+  result += "🏃 Kilométrage - 4 dernières semaines:\n";
+  weeklyData.forEach(w => {
+    result += `  Semaine ${w.week}: ${w.totalKm}km (${w.sessions} séance${w.sessions > 1 ? 's' : ''})\n`;
+  });
+  
+  const totalKm4Weeks = weeklyData.reduce((sum, w) => sum + w.totalKm, 0);
+  const avgKm4Weeks = (totalKm4Weeks / 4).toFixed(1);
+  result += `  Total: ${totalKm4Weeks.toFixed(1)}km | Moyenne: ${avgKm4Weeks}km/semaine\n\n`;
+
+  result += `❤️ Fréquence cardiaque - Semaine courante (${formatLocalDate(mondayThisWeek)} à ${formatLocalDate(sundayThisWeek)}):\n`;
+  if (weeklyBPMData.length > 0) {
+    weeklyBPMData.forEach(day => {
+      result += `  ${day.day} (${day.date}): Min=${day.min} Max=${day.max} Avg=${day.average} bpm\n`;
+    });
+    const avgBPM = (weeklyBPMData.reduce((sum, d) => sum + d.average, 0) / weeklyBPMData.length).toFixed(0);
+    result += `  Moyenne semaine: ${avgBPM} bpm\n`;
+  } else {
+    result += "  Aucune activité cette semaine\n";
+  }
+
+  return result;
 }
 
 /**

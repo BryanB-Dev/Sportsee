@@ -197,6 +197,16 @@ export default function Dashboard() {
     return heartRateChartData;
   })();
 
+  // Calculer la moyenne BPM pour la semaine courante seulement
+  const averageBPMThisWeek = (() => {
+    const bpmValues = heartRateData
+      .filter(d => d.average > 0) // Exclure les jours sans données
+      .map(d => d.average);
+    
+    if (bpmValues.length === 0) return 0;
+    return Math.round(bpmValues.reduce((sum, val) => sum + val, 0) / bpmValues.length);
+  })();
+
   return (
     <div className={styles.container}>
       {/* Header */}
@@ -241,7 +251,7 @@ export default function Dashboard() {
                 color="#F4320B"
                 height={400}
                 isBPMChart={true}
-                averageBPM={averageHeartRate}
+                averageBPM={averageBPMThisWeek}
                 activityData={activity}
               />
             }
