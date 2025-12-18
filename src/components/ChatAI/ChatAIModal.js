@@ -97,12 +97,6 @@ export default function ChatAIModal({ open, onClose }) {
       if (userContext) {
         options.userContext = userContext;
       }
-      
-      // If the user used rude language, include a short system override asking the assistant to be brief and not to follow up
-      const rude = /\b(tg|ta gueule|putain|merde|connard|salope)\b/i.test(text);
-      if (rude) {
-        options.messages = [...(options.messages || []), { role: 'system', content: "Réponds brièvement et poliment ; ne relance pas et n'offre pas de conseils non sollicités." }];
-      }
 
       const { reply } = await sendChat(options);
       if (!reply) {
