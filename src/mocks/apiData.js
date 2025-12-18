@@ -11,14 +11,14 @@ export const mockAuthUsers = [
   {
     username: 'emmaleroy', 
     password: 'password789',
-    userId: 'user456',
-    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyNDU2IiwiaWF0IjoxNzY0NzcxMzAxLCJleHAiOjE3NjQ4NTc3MDF9.CCLWKBTpNH0cQfYIRYR9Rq3MXtmV_IBccKj5PgK0y_Y'
+    userId: 'user789',
+    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyNzg5IiwiaWF0IjoxNzY0NzcxMzAxLCJleHAiOjE3NjQ4NTc3MDF9.CCLWKBTpNH0cQfYIRYR9Rq3MXtmV_IBccKj5PgK0y_Y'
   },
   {
     username: 'marcdubois',
     password: 'password456', 
-    userId: 'user789',
-    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyNzg5IiwiaWF0IjoxNzY0NzcxMjkwLCJleHAiOjE3NjQ4NTc2OTB9.imxbfEnvZmAjwvCQ80L_YKOyqGk4gr9NKID3DDbacUI'
+    userId: 'user456',
+    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyNDU2IiwiaWF0IjoxNzY0NzcxMjkwLCJleHAiOjE3NjQ4NTc2OTB9.imxbfEnvZmAjwvCQ80L_YKOyqGk4gr9NKID3DDbacUI'
   }
 ];
 
@@ -49,23 +49,6 @@ export const mockUserInfo = {
   },
   'user456': {
     profile: {
-      firstName: 'Emma',
-      lastName: 'Leroy',
-      createdAt: '2025-01-15',
-      age: 28,
-      weight: 55,
-      height: 160,
-      gender: 'female',
-      profilePicture: 'http://localhost:8000/images/emma.jpg'
-    },
-    statistics: {
-      totalDistance: '1850.8',
-      totalSessions: 280,
-      totalDuration: 11200
-    }
-  },
-  'user789': {
-    profile: {
       firstName: 'Marc',
       lastName: 'Dubois',
       createdAt: '2025-02-01',
@@ -79,6 +62,23 @@ export const mockUserInfo = {
       totalDistance: '3120.5',
       totalSessions: 425,
       totalDuration: 18900
+    }
+  },
+  'user789': {
+    profile: {
+      firstName: 'Emma',
+      lastName: 'Leroy',
+      createdAt: '2025-01-15',
+      age: 28,
+      weight: 55,
+      height: 160,
+      gender: 'female',
+      profilePicture: 'http://localhost:8000/images/emma.jpg'
+    },
+    statistics: {
+      totalDistance: '1850.8',
+      totalSessions: 280,
+      totalDuration: 11200
     }
   }
 };
@@ -139,43 +139,6 @@ export const mockUserActivity = {
   'user456': [
     {
       date: '2025-11-18',
-      distance: 4.2,
-      duration: 28,
-      heartRate: { min: 145, max: 180, average: 165 },
-      caloriesBurned: 315
-    },
-    {
-      date: '2025-11-20',
-      distance: 6.8,
-      duration: 45,
-      heartRate: { min: 142, max: 176, average: 162 },
-      caloriesBurned: 485
-    },
-    {
-      date: '2025-11-22',
-      distance: 3.8,
-      duration: 25,
-      heartRate: { min: 148, max: 182, average: 168 },
-      caloriesBurned: 285
-    },
-    {
-      date: '2025-11-24',
-      distance: 5.5,
-      duration: 36,
-      heartRate: { min: 144, max: 178, average: 164 },
-      caloriesBurned: 390
-    },
-    {
-      date: '2025-12-07',
-      distance: 3.5,
-      duration: 25,
-      heartRate: { min: 121, max: 145, average: 132 },
-      caloriesBurned: 185
-    }
-  ],
-  'user789': [
-    {
-      date: '2025-11-18',
       distance: 8.2,
       duration: 52,
       heartRate: { min: 138, max: 175, average: 160 },
@@ -222,6 +185,43 @@ export const mockUserActivity = {
       duration: 62,
       heartRate: { min: 137, max: 179, average: 159 },
       caloriesBurned: 705
+    }
+  ],
+  'user789': [
+    {
+      date: '2025-11-18',
+      distance: 4.2,
+      duration: 28,
+      heartRate: { min: 145, max: 180, average: 165 },
+      caloriesBurned: 315
+    },
+    {
+      date: '2025-11-20',
+      distance: 6.8,
+      duration: 45,
+      heartRate: { min: 142, max: 176, average: 162 },
+      caloriesBurned: 485
+    },
+    {
+      date: '2025-11-22',
+      distance: 3.8,
+      duration: 25,
+      heartRate: { min: 148, max: 182, average: 168 },
+      caloriesBurned: 285
+    },
+    {
+      date: '2025-11-24',
+      distance: 5.5,
+      duration: 36,
+      heartRate: { min: 144, max: 178, average: 164 },
+      caloriesBurned: 390
+    },
+    {
+      date: '2025-12-07',
+      distance: 3.5,
+      duration: 25,
+      heartRate: { min: 121, max: 145, average: 132 },
+      caloriesBurned: 185
     }
   ]
 };
