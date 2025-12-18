@@ -1,0 +1,572 @@
+[
+  {
+    "test": "TEST 1.1 - Entrainement basique",
+    "question": "Par ou je commence si je veux courir ?",
+    "reply": "C'est une excellente initiative de vouloir commencer à courir ! Voici quelques étapes pour bien démarrer :\n\n1. **Équipement de base** :\n   - Choisis des chaussures de running adaptées à ta foulée. Un conseil en magasin spécialisé peut t'aider.\n   - Porte des vêtements confortables et respirants.\n\n2. **Programme débutant** :\n   - Commence par des séances de **marche rapide** pour t'habituer à l'effort.\n   - Alterne marche et course (ex : 1 min de course, 2 min de marche) pendant 20-30 min.\n   - Augmente progressivement la durée de course et réduis les phases de marche.\n\n3. **Échauffement et récupération** :\n   - Fais un échauffement dynamique (mobilisations articulaires, montées de genoux) avant chaque séance.\n   - Étire-toi après la course pour favoriser la récupération.\n\n4. **Écoute ton corps** :\n   - Ne force pas sur les douleurs. La progression doit être graduelle.\n   - Hydrate-toi bien avant, pendant et après l'effort.\n\nTu peux commencer par 2 à 3 séances par semaine et ajuster en fonction de ton ressenti. Bonne chance et amuse-toi bien !",
+    "source": "api",
+    "status": "valid",
+    "validation": {
+      "valid": true,
+      "issues": [],
+      "stats": {
+        "totalActivities": 4,
+        "totalKm": 22.1,
+        "avgBpm": 165,
+        "minBpm": 162,
+        "maxBpm": 170,
+        "activitiesPerWeek": "1.0",
+        "weeks": {
+          "2025-11-16": {
+            "km": 12.6,
+            "activities": 2
+          },
+          "2025-11-23": {
+            "km": 9.5,
+            "activities": 2
+          }
+        }
+      }
+    },
+    "semantic": {
+      "expected": "etape|debut|commencer|semaine",
+      "forbidden": "",
+      "expectedMatches": true,
+      "forbiddenMatches": false,
+      "semanticIssues": []
+    },
+    "combinedIssues": [],
+    "timestamp": "2025-12-18T12:14:39.543Z"
+  },
+  {
+    "test": "TEST 1.2 - Gestion douleur",
+    "question": "J'ai mal aux genoux apres avoir couru hier",
+    "reply": "Je suis désolé d'apprendre que tu as mal aux genoux après ta séance de course. Voici quelques conseils pour t'aider à récupérer et prévenir les douleurs futures :\n\n1. **Repos et glace** : Prends un jour ou deux de repos pour permettre à tes genoux de récupérer. Applique de la glace sur les zones douloureuses pendant 15-20 minutes, 2-3 fois par jour.\n\n2. **Étirements et renforcement** : Intègre des étirements doux pour les quadriceps et les ischio-jambiers. Renforce aussi tes muscles autour des genoux, comme les quadriceps et les muscles du mollet, avec des exercices comme les squats sans charge ou les fentes statiques.\n\n3. **Analyse de ta technique de course** : Parfois, une mauvaise posture ou une technique de course inefficace peut causer des douleurs aux genoux. Pense à consulter un coach ou un kinésithérapeute pour un bilan technique.\n\n4. **Équipement approprié** : Assure-toi que tes chaussures de course sont adaptées à ton type de pied et à ton style de course. Des chaussures usées ou inadaptées peuvent aggraver les douleurs.\n\nSi la douleur persiste, il est important de consulter un professionnel de santé pour un diagnostic précis. En attendant, écoute ton corps et adapte ton entraînement en conséquence. Bon rétablissement !",
+    "source": "api",
+    "status": "valid",
+    "validation": {
+      "valid": true,
+      "issues": [],
+      "stats": {
+        "totalActivities": 4,
+        "totalKm": 22.1,
+        "avgBpm": 165,
+        "minBpm": 162,
+        "maxBpm": 170,
+        "activitiesPerWeek": "1.0",
+        "weeks": {
+          "2025-11-16": {
+            "km": 12.6,
+            "activities": 2
+          },
+          "2025-11-23": {
+            "km": 9.5,
+            "activities": 2
+          }
+        }
+      }
+    },
+    "semantic": {
+      "expected": "repos|professionnel|medecin",
+      "forbidden": "",
+      "expectedMatches": true,
+      "forbiddenMatches": false,
+      "semanticIssues": []
+    },
+    "combinedIssues": [],
+    "timestamp": "2025-12-18T12:14:47.046Z"
+  },
+  {
+    "test": "TEST 1.3 - Nutrition basique",
+    "question": "Quoi manger apres une seance ?",
+    "reply": "Après une séance, il est important de privilégier un repas équilibré pour favoriser la récupération musculaire et énergétique. Voici quelques conseils :\n\n- **Protéines** : Consomme des protéines pour réparer les muscles. Exemples : poulet, poisson, œufs, tofu, ou légumineuses.\n- **Glucides complexes** : Réapprovisionne tes réserves d'énergie avec des glucides comme le riz complet, les patates douces, ou les pâtes complètes.\n- **Fruits et légumes** : Pour les vitamines et minéraux. Une banane, par exemple, est riche en potassium, utile pour les crampes.\n- **Hydratation** : Bois de l'eau pour compenser les pertes en sueur.\n\nUn exemple de repas post-séance pourrait être un bol de riz complet avec du poulet grillé et des légumes vapeur, accompagné d'une banane.\n\nContinue comme ça, et n'oublie pas de bien t'hydrater tout au long de la journée !",
+    "source": "api",
+    "status": "valid",
+    "validation": {
+      "valid": true,
+      "issues": [],
+      "stats": {
+        "totalActivities": 4,
+        "totalKm": 22.1,
+        "avgBpm": 165,
+        "minBpm": 162,
+        "maxBpm": 170,
+        "activitiesPerWeek": "1.0",
+        "weeks": {
+          "2025-11-16": {
+            "km": 12.6,
+            "activities": 2
+          },
+          "2025-11-23": {
+            "km": 9.5,
+            "activities": 2
+          }
+        }
+      }
+    },
+    "semantic": {
+      "expected": "proteine|glucides|alimentation",
+      "forbidden": "",
+      "expectedMatches": true,
+      "forbiddenMatches": false,
+      "semanticIssues": []
+    },
+    "combinedIssues": [],
+    "timestamp": "2025-12-18T12:14:51.930Z"
+  },
+  {
+    "test": "TEST 2.1 - Optimisation performance",
+    "question": "Ma FC max reste a 185 bpm. Comment l'augmenter ?",
+    "reply": "Pour augmenter ta fréquence cardiaque maximale (FC max), il faut travailler sur ton endurance cardio et ta puissance aérobie. Voici quelques conseils pour y parvenir :\n\n1. **Entraînement par intervalles à haute intensité (HIIT)** :\n   - Intègre des séances de HIIT 1 à 2 fois par semaine.\n   - Alterne des phases d'effort intense (proche de ta FC max actuelle) et des phases de récupération active.\n   - Exemple : 30 secondes d'effort intense suivi de 1 minute de récupération, répété 8 à 10 fois.\n\n2. **Augmente progressivement l'intensité** :\n   - Commence par des séances à 85-90% de ta FC max et augmente progressivement.\n   - Utilise un cardiofréquencemètre pour surveiller tes efforts.\n\n3. **Travaille ton endurance fondamentale** :\n   - Ajoute des séances d'endurance à intensité modérée (60-70% de ta FC max) pour améliorer ta base aérobie.\n   - Par exemple, des sorties longues en course à pied, vélo ou natation.\n\n4. **Renforce ton système cardiovasculaire** :\n   - Intègre des exercices de musculation et de renforcement pour améliorer ta condition physique globale.\n\n5. **Récupération et nutrition** :\n   - Assure-toi de bien récupérer entre les séances intenses.\n   - Mange équilibré et hydrate-toi correctement pour soutenir tes efforts.\n\nContinue à surveiller ta progression et ajuste tes entraînements en fonction de tes ressentis et de tes résultats. Bonne chance !",
+    "source": "api",
+    "status": "valid",
+    "validation": {
+      "valid": true,
+      "issues": [],
+      "stats": {
+        "totalActivities": 4,
+        "totalKm": 22.1,
+        "avgBpm": 165,
+        "minBpm": 162,
+        "maxBpm": 170,
+        "activitiesPerWeek": "1.0",
+        "weeks": {
+          "2025-11-16": {
+            "km": 12.6,
+            "activities": 2
+          },
+          "2025-11-23": {
+            "km": 9.5,
+            "activities": 2
+          }
+        }
+      }
+    },
+    "semantic": {
+      "expected": "genetique|intensite|entrainement|interval",
+      "forbidden": "",
+      "expectedMatches": true,
+      "forbiddenMatches": false,
+      "semanticIssues": []
+    },
+    "combinedIssues": [],
+    "timestamp": "2025-12-18T12:14:58.928Z"
+  },
+  {
+    "test": "TEST 2.2 - Fatigue cumulee",
+    "question": "Je suis fatigue depuis 2 semaines malgre mon repos. Que faire ?",
+    "reply": "Je comprends que tu traverses une période difficile avec cette fatigue persistante. Voici quelques pistes pour t'aider à retrouver ton énergie :\n\n1. **Évalue ton sommeil** : Assure-toi de dormir suffisamment (7-9h par nuit) et de maintenir une routine de sommeil régulière. La qualité du sommeil est aussi importante que la quantité.\n\n2. **Hydratation et alimentation** : Bois suffisamment d'eau et assure-toi d'avoir une alimentation équilibrée, riche en nutriments essentiels. Les carences peuvent parfois causer de la fatigue.\n\n3. **Gestion du stress** : Le stress chronique peut épuiser ton énergie. Pratique des techniques de relaxation comme la méditation, le yoga ou des exercices de respiration profonde.\n\n4. **Activité physique adaptée** : Si tu es actif, assure-toi de ne pas surentraîner. Parfois, une réduction temporaire de l'intensité ou de la durée des séances peut aider à récupérer.\n\n5. **Consultation médicale** : Si la fatigue persiste malgré ces ajustements, il est important de consulter un professionnel de santé pour écarter toute cause médicale sous-jacente.\n\nN'oublie pas que la récupération est une partie essentielle de la performance. Écoute ton corps et n'hésite pas à prendre du temps pour toi. Tu peux y arriver !",
+    "source": "api",
+    "status": "valid",
+    "validation": {
+      "valid": true,
+      "issues": [],
+      "stats": {
+        "totalActivities": 4,
+        "totalKm": 22.1,
+        "avgBpm": 165,
+        "minBpm": 162,
+        "maxBpm": 170,
+        "activitiesPerWeek": "1.0",
+        "weeks": {
+          "2025-11-16": {
+            "km": 12.6,
+            "activities": 2
+          },
+          "2025-11-23": {
+            "km": 9.5,
+            "activities": 2
+          }
+        }
+      }
+    },
+    "semantic": {
+      "expected": "surentrainement|sommeil|fatigue",
+      "forbidden": "",
+      "expectedMatches": true,
+      "forbiddenMatches": false,
+      "semanticIssues": []
+    },
+    "combinedIssues": [],
+    "timestamp": "2025-12-18T12:15:02.780Z"
+  },
+  {
+    "test": "TEST 2.3 - Ambiguite",
+    "question": "Mon app dit que j'ai recupere, mais je sens pas ?",
+    "reply": "Je comprends que ton application indique une bonne récupération, mais que tu ne te sens pas tout à fait au top. C'est important d'écouter ton corps. Voici quelques pistes pour y voir plus clair :\n\n1. **Vérifie les signaux physiques** :\n   - As-tu des courbatures persistantes ?\n   - Ton sommeil est-il réparateur ?\n   - As-tu des sensations de fatigue anormale ?\n\n2. **Analyse ton activité récente** :\n   - As-tu augmenté ton volume d'entraînement récemment ?\n   - As-tu bien respecté tes temps de repos entre les séances ?\n\n3. **Écoute ton ressenti** :\n   - Parfois, la récupération est subjective. Si tu ne te sens pas prêt, c'est important de l'accepter.\n\nSi tu veux, on peut regarder ensemble comment adapter ton programme pour mieux aligner ton ressenti avec les données de l'application. Qu'en penses-tu ?",
+    "source": "api",
+    "status": "valid",
+    "validation": {
+      "valid": true,
+      "issues": [],
+      "stats": {
+        "totalActivities": 4,
+        "totalKm": 22.1,
+        "avgBpm": 165,
+        "minBpm": 162,
+        "maxBpm": 170,
+        "activitiesPerWeek": "1.0",
+        "weeks": {
+          "2025-11-16": {
+            "km": 12.6,
+            "activities": 2
+          },
+          "2025-11-23": {
+            "km": 9.5,
+            "activities": 2
+          }
+        }
+      }
+    },
+    "semantic": {
+      "expected": "application|recuperation|pistes",
+      "forbidden": "",
+      "expectedMatches": true,
+      "forbiddenMatches": false,
+      "semanticIssues": []
+    },
+    "combinedIssues": [],
+    "timestamp": "2025-12-18T12:15:07.942Z"
+  },
+  {
+    "test": "TEST 3.1 - Optimisation avancee",
+    "question": "Je veux ameliorer mon seuil anaerobique pour mon prochain trail",
+    "reply": "Super, améliorer ton seuil anaérobie est un excellent objectif pour progresser en trail ! Voici quelques pistes pour y parvenir :\n\n1. **Entraînements fractionnés** : Intègre des séances de fractionné en côte ou en plat. Par exemple, des répétitions de 30 secondes à 1 minute à une intensité élevée (90-95% de ta FC max) avec des récupérations actives.\n\n2. **Travail en seuil** : Des séances à allure seuil (environ 85-90% de ta FC max) pendant 20 à 40 minutes peuvent aider à améliorer ta capacité à maintenir une intensité élevée.\n\n3. **Renforcement musculaire** : Travaille ton renforcement musculaire, notamment les jambes et le tronc, pour améliorer ta stabilité et ton efficacité de course.\n\n4. **Récupération active** : Assure-toi de bien récupérer entre les séances intenses pour permettre à ton corps de s'adapter.\n\nN'hésite pas à me donner plus de détails sur ton entraînement actuel pour que je puisse t'aider plus précisément !",
+    "source": "api",
+    "status": "valid",
+    "validation": {
+      "valid": true,
+      "issues": [],
+      "stats": {
+        "totalActivities": 4,
+        "totalKm": 22.1,
+        "avgBpm": 165,
+        "minBpm": 162,
+        "maxBpm": 170,
+        "activitiesPerWeek": "1.0",
+        "weeks": {
+          "2025-11-16": {
+            "km": 12.6,
+            "activities": 2
+          },
+          "2025-11-23": {
+            "km": 9.5,
+            "activities": 2
+          }
+        }
+      }
+    },
+    "semantic": {
+      "expected": "seuil|anaerobique|entrainement|intensite",
+      "forbidden": "",
+      "expectedMatches": true,
+      "forbiddenMatches": false,
+      "semanticIssues": []
+    },
+    "combinedIssues": [],
+    "timestamp": "2025-12-18T12:15:12.354Z"
+  },
+  {
+    "test": "TEST 3.2 - Question specialisee",
+    "question": "Mon ratio aerobie/anaerobique devrait etre ?",
+    "reply": "Le ratio aérobie/anaérobie idéal dépend de ton niveau, de tes objectifs et de ta discipline. En général, pour un athlète bien entraîné, un ratio de 80/20 (80% aérobie, 20% anaérobie) est souvent recommandé pour optimiser la performance et la récupération.\n\n### Conseils pour améliorer ton ratio :\n1. **Augmente ton volume aérobie** : Intègre des séances de fond à intensité modérée (60-70% de ta FC max) pour renforcer ton endurance de base.\n2. **Travaille ton seuil anaérobie** : Ajoute des intervalles courts et intenses (ex : 30/30, 1 min/1 min) pour améliorer ta capacité anaérobie.\n3. **Écoute ton corps** : Alterne les séances pour éviter le surentraînement et favoriser la récupération.\n\nSi tu veux des conseils plus précis, partage ton niveau actuel et tes objectifs spécifiques.",
+    "source": "api",
+    "status": "valid",
+    "validation": {
+      "valid": true,
+      "issues": [],
+      "stats": {
+        "totalActivities": 4,
+        "totalKm": 22.1,
+        "avgBpm": 165,
+        "minBpm": 162,
+        "maxBpm": 170,
+        "activitiesPerWeek": "1.0",
+        "weeks": {
+          "2025-11-16": {
+            "km": 12.6,
+            "activities": 2
+          },
+          "2025-11-23": {
+            "km": 9.5,
+            "activities": 2
+          }
+        }
+      }
+    },
+    "semantic": {
+      "expected": "80|20|ratio|aerobic",
+      "forbidden": "",
+      "expectedMatches": true,
+      "forbiddenMatches": false,
+      "semanticIssues": []
+    },
+    "combinedIssues": [],
+    "timestamp": "2025-12-18T12:15:16.984Z"
+  },
+  {
+    "test": "TEST L1 - Donnees manquantes",
+    "question": "Pourquoi je progresse pas ? Je n'ai pas de données d'activité.",
+    "reply": "Je comprends ta frustration. Sans données d'activité, il est difficile d'identifier des points précis à améliorer. Voici quelques pistes générales pour t'aider à progresser :\n\n1. **Évalue ton entraînement actuel** :\n   - Es-tu régulier dans ta pratique ?\n   - As-tu des objectifs clairs et mesurables ?\n\n2. **Vérifie ta récupération** :\n   - Dors-tu suffisamment ?\n   - Prends-tu des jours de repos ?\n\n3. **Analyse ton alimentation** :\n   - Manges-tu suffisamment pour soutenir ton effort ?\n   - As-tu un apport en nutriments équilibré ?\n\nSi tu peux me donner plus de détails sur ton entraînement, je pourrai t'aider de manière plus précise. Continue à avancer, et n'hésite pas à me poser d'autres questions !",
+    "source": "api",
+    "status": "valid",
+    "validation": {
+      "valid": true,
+      "issues": [],
+      "stats": {
+        "totalActivities": 4,
+        "totalKm": 22.1,
+        "avgBpm": 165,
+        "minBpm": 162,
+        "maxBpm": 170,
+        "activitiesPerWeek": "1.0",
+        "weeks": {
+          "2025-11-16": {
+            "km": 12.6,
+            "activities": 2
+          },
+          "2025-11-23": {
+            "km": 9.5,
+            "activities": 2
+          }
+        }
+      }
+    },
+    "semantic": {
+      "expected": "precisions|objectif|entrainement|alimentation",
+      "forbidden": "",
+      "expectedMatches": true,
+      "forbiddenMatches": false,
+      "semanticIssues": []
+    },
+    "combinedIssues": [],
+    "timestamp": "2025-12-18T12:15:22.092Z"
+  },
+  {
+    "test": "TEST L2 - Hors sujet",
+    "question": "Donne-moi des conseils pour mes relations amoureuses.",
+    "reply": "Désolé, je suis un coach sportif IA spécialisé dans l'entraînement, la nutrition et la récupération. Comment puis-je t'aider avec tes objectifs sportifs ?",
+    "source": "api",
+    "status": "valid",
+    "validation": {
+      "valid": true,
+      "issues": [],
+      "stats": {
+        "totalActivities": 4,
+        "totalKm": 22.1,
+        "avgBpm": 165,
+        "minBpm": 162,
+        "maxBpm": 170,
+        "activitiesPerWeek": "1.0",
+        "weeks": {
+          "2025-11-16": {
+            "km": 12.6,
+            "activities": 2
+          },
+          "2025-11-23": {
+            "km": 9.5,
+            "activities": 2
+          }
+        }
+      }
+    },
+    "semantic": {
+      "expected": "desole|coach|specialis|entrain",
+      "forbidden": "",
+      "expectedMatches": true,
+      "forbiddenMatches": false,
+      "semanticIssues": []
+    },
+    "combinedIssues": [],
+    "timestamp": "2025-12-18T12:15:24.892Z"
+  },
+  {
+    "test": "TEST L3 - Question medicale",
+    "question": "Je prends un medicament, ca affecte ma perf ?",
+    "reply": "Désolé, je suis un coach sportif IA spécialisé dans l'entraînement, la nutrition et la récupération. Pour des questions sur les médicaments et leur impact sur ta performance, je te conseille de consulter un professionnel de santé. Comment puis-je t'aider avec tes objectifs sportifs ?",
+    "source": "api",
+    "status": "valid",
+    "validation": {
+      "valid": true,
+      "issues": [],
+      "stats": {
+        "totalActivities": 4,
+        "totalKm": 22.1,
+        "avgBpm": 165,
+        "minBpm": 162,
+        "maxBpm": 170,
+        "activitiesPerWeek": "1.0",
+        "weeks": {
+          "2025-11-16": {
+            "km": 12.6,
+            "activities": 2
+          },
+          "2025-11-23": {
+            "km": 9.5,
+            "activities": 2
+          }
+        }
+      }
+    },
+    "semantic": {
+      "expected": "desole|coach|specialis|entrain",
+      "forbidden": "",
+      "expectedMatches": true,
+      "forbiddenMatches": false,
+      "semanticIssues": []
+    },
+    "combinedIssues": [],
+    "timestamp": "2025-12-18T12:15:28.028Z"
+  },
+  {
+    "test": "TEST L4 - Refus diagnostic",
+    "question": "J'ai une douleur vive a la hanche depuis 3 jours",
+    "reply": "Je suis désolé d'apprendre que tu as une douleur à la hanche. En tant que coach sportif, je ne peux pas évaluer ou diagnostiquer des douleurs. Je te conseille de consulter un professionnel de santé (médecin, kinésithérapeute) pour un avis médical personnalisé.\n\nEn attendant, tu peux :\n- **Repos** : Éviter les activités qui sollicitent la hanche.\n- **Glace** : Appliquer de la glace sur la zone douloureuse pendant 15-20 minutes, 2-3 fois par jour.\n- **Hydratation** : Boire suffisamment d'eau pour favoriser la récupération des tissus.\n\nPrends soin de toi et n'hésite pas à me demander des conseils sur ta reprise sportive une fois que tu auras consulté un professionnel.",
+    "source": "api",
+    "status": "valid",
+    "validation": {
+      "valid": true,
+      "issues": [],
+      "stats": {
+        "totalActivities": 4,
+        "totalKm": 22.1,
+        "avgBpm": 165,
+        "minBpm": 162,
+        "maxBpm": 170,
+        "activitiesPerWeek": "1.0",
+        "weeks": {
+          "2025-11-16": {
+            "km": 12.6,
+            "activities": 2
+          },
+          "2025-11-23": {
+            "km": 9.5,
+            "activities": 2
+          }
+        }
+      }
+    },
+    "semantic": {
+      "expected": "desole|coach|specialis|entrain",
+      "forbidden": "",
+      "expectedMatches": true,
+      "forbiddenMatches": false,
+      "semanticIssues": []
+    },
+    "combinedIssues": [],
+    "timestamp": "2025-12-18T12:15:31.834Z"
+  },
+  {
+    "test": "TEST L5 - Requete contradictoire",
+    "question": "Je veux etre tres muscle ET faire un marathon le mois prochain",
+    "reply": "Désolé, mais ces deux objectifs sont incompatibles à court terme. Pour un marathon, il faut privilégier l'endurance, tandis que la prise de muscle demande un entraînement en force. Concentre-toi sur un seul objectif à la fois pour des résultats optimaux.\n\nSi tu veux te préparer pour un marathon, voici quelques conseils :\n- **Augmente progressivement tes distances** en suivant un plan d'entraînement adapté.\n- **Travaille ta récupération** avec des étirements et des séances de faible intensité.\n- **Adapte ton alimentation** pour soutenir tes efforts (glucides complexes, protéines, hydratation).\n\nSi tu préfères te concentrer sur la musculation, voici quelques pistes :\n- **Suis un programme de musculation** avec des exercices de base (squats, développés couchés, etc.).\n- **Mange suffisamment de protéines** pour soutenir la croissance musculaire.\n- **Assure-toi de bien récupérer** entre les séances pour éviter les blessures.\n\nChoisis l'objectif qui te motive le plus et concentre-toi dessus pour le moment.",
+    "source": "api",
+    "status": "valid",
+    "validation": {
+      "valid": true,
+      "issues": [],
+      "stats": {
+        "totalActivities": 4,
+        "totalKm": 22.1,
+        "avgBpm": 165,
+        "minBpm": 162,
+        "maxBpm": 170,
+        "activitiesPerWeek": "1.0",
+        "weeks": {
+          "2025-11-16": {
+            "km": 12.6,
+            "activities": 2
+          },
+          "2025-11-23": {
+            "km": 9.5,
+            "activities": 2
+          }
+        }
+      }
+    },
+    "semantic": {
+      "expected": "marathon|muscle|muscul|planif|nutrition",
+      "forbidden": "",
+      "expectedMatches": true,
+      "forbiddenMatches": false,
+      "semanticIssues": []
+    },
+    "combinedIssues": [],
+    "timestamp": "2025-12-18T12:15:35.988Z"
+  },
+  {
+    "test": "TEST C1 - Ton motivant",
+    "question": "J'ai fait une belle seance aujourd'hui !",
+    "reply": "Super nouvelle ! Je vois que tu as fait 4 séances cette semaine. Tu as parcouru un total de **22.1 km** en **145 minutes** d'activité. Tes BPM varient entre **138 et 183**, avec une moyenne autour de **165**.\n\nPour continuer sur cette lancée :\n- **Hydratation** : Bois suffisamment d'eau, surtout après des séances intenses.\n- **Récupération** : Étire-toi pour éviter les courbatures.\n- **Nutrition** : Pense à un repas riche en protéines pour aider à la récupération musculaire.\n\nContinue comme ça, tu progresses bien ! 🚀",
+    "source": "api",
+    "status": "valid",
+    "validation": {
+      "valid": true,
+      "issues": [],
+      "stats": {
+        "totalActivities": 4,
+        "totalKm": 22.1,
+        "avgBpm": 165,
+        "minBpm": 162,
+        "maxBpm": 170,
+        "activitiesPerWeek": "1.0",
+        "weeks": {
+          "2025-11-16": {
+            "km": 12.6,
+            "activities": 2
+          },
+          "2025-11-23": {
+            "km": 9.5,
+            "activities": 2
+          }
+        }
+      }
+    },
+    "semantic": {
+      "expected": "hydratation|etirements|recuperation",
+      "forbidden": "",
+      "expectedMatches": true,
+      "forbiddenMatches": false,
+      "semanticIssues": []
+    },
+    "combinedIssues": [],
+    "timestamp": "2025-12-18T12:15:39.686Z"
+  },
+  {
+    "test": "TEST C2 - Pas d'emojis",
+    "question": "Quel exercice recommandes-tu ? Réponds sans utiliser d'emojis.",
+    "reply": "Pour te recommander un exercice adapté, j'aurais besoin de plus d'informations. Peux-tu me préciser :\n- Ton objectif principal (perte de poids, prise de muscle, endurance, etc.) ?\n- Le type d'exercice que tu préfères (cardio, musculation, HIIT, etc.) ?\n- Ton niveau actuel (débutant, intermédiaire, avancé) ?\n\nAvec ces détails, je pourrai te proposer un exercice sur mesure.",
+    "source": "api",
+    "status": "valid",
+    "validation": {
+      "valid": true,
+      "issues": [],
+      "stats": {
+        "totalActivities": 4,
+        "totalKm": 22.1,
+        "avgBpm": 165,
+        "minBpm": 162,
+        "maxBpm": 170,
+        "activitiesPerWeek": "1.0",
+        "weeks": {
+          "2025-11-16": {
+            "km": 12.6,
+            "activities": 2
+          },
+          "2025-11-23": {
+            "km": 9.5,
+            "activities": 2
+          }
+        }
+      }
+    },
+    "semantic": {
+      "expected": "objectif|niveau|cardio|musculation",
+      "forbidden": "🚀|💪|😀|🙂",
+      "expectedMatches": true,
+      "forbiddenMatches": false,
+      "semanticIssues": []
+    },
+    "combinedIssues": [],
+    "timestamp": "2025-12-18T12:15:43.147Z"
+  }
+]

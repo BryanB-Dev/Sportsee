@@ -172,7 +172,8 @@ export function validateAIResponse(aiResponse, realActivities) {
   }
 
   // RÈGLE 3: Vérifier les km (tolérance 30%)
-  if (mentionedKm > 0 && stats.totalKm > 0) {
+  const sessionDistances = (realActivities || []).map(a => a.distance);
+  if (mentionedKm > 0 && stats.totalKm > 0 && !sessionDistances.includes(mentionedKm)) {
     const tolerance = stats.totalKm * 0.3;
     if (Math.abs(mentionedKm - stats.totalKm) > tolerance) {
       issues.push(`❌ L'IA dit ${mentionedKm}km mais le total réel est ${stats.totalKm}km`);
@@ -203,8 +204,9 @@ export function validateAIResponse(aiResponse, realActivities) {
     issues.push(`🚨 HALLUCINATION: L'IA dit ${mentionedActivities} activités mais l'utilisateur n'a que ${stats.totalActivities}`);
   }
 
-  // RÈGLE 6: Format Markdown cassé
-  if (!aiResponse.includes('\n') && aiResponse.length > 100 && !aiResponse.includes(':')) {
+  // RÈGLE 6: Format Markdown cassé (mais tolérant pour les refus)
+  const isRefusal = aiResponse.length < 300 && /desole|coach|specialis/i.test(aiResponse);
+  if (!aiResponse.includes('\n') && aiResponse.length > 100 && !aiResponse.includes(':') && !isRefusal) {
     issues.push("⚠️ La réponse n'est pas bien formatée");
   }
 

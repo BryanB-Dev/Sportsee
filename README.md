@@ -73,6 +73,7 @@ sportsee/
 │   ├── mocks/              # données mock pour dev
 │   └── services/           # apiService, chatService
 ├── package.json
+├── test/                   # scripts et résultats des tests IA (runner + test_results.json)
 └── README.md
 ```
 ```
@@ -132,7 +133,15 @@ backend/
 
 ## 🧪 Tests & validation
 
-- Le fichier `test_results.json` contient une suite de prompts et leurs réponses pour valider le comportement du chatbot/IA.
+Les tests automatisés pour le coach IA sont regroupés dans le dossier ``/test``.
+
+- `test/run_coach_tests.mjs` : runner Node qui envoie les prompts à `http://localhost:3000/api/chat`. Si le serveur local n'est pas disponible, le runner produit une réponse de secours basée sur les mocks.
+- `test/test_results.json` : résultats détaillés (par scénario) produits par le runner.
+
+**Résultats actuels** : 15/15 tests passent avec succès. Les réponses IA sont désormais conversationnelles et naturelles.
+
+Note importante : le dossier `test/` contient un fichier lisible — [test/README.md](test/README.md) — avec toutes les questions et réponses complètes pour chaque test. Utilisez ce fichier pour consulter les exemples détaillés.
+
 
 ## 🤝 Contribution
 
