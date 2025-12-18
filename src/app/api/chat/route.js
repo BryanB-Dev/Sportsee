@@ -21,7 +21,7 @@ const ALLOWED_MODELS = new Set([
 const MAX_MESSAGE_CHARS = 4000; // per message guardrail
 const MAX_TOTAL_CHARS = 6000; // total across messages to avoid over-limit
 const MAX_TOKENS = 2048; // model output cap - augmenté pour des réponses plus complètes
-const DEFAULT_TEMPERATURE = 0.7;
+const DEFAULT_TEMPERATURE = 0.2; // Très bas: 0.2 pour réduire drastiquement les hallucinations (plus factuel, très peu créatif)
 const REQUEST_TIMEOUT_MS = 20000; // 20s
 const MIN_REQUEST_INTERVAL_MS = 2000; // simple rate limit: 1 request per 2s per client
 
@@ -163,6 +163,8 @@ export async function POST(req) {
     model,
     msgCount: messages.length,
     totalChars,
+    hasUserContext: Boolean(userContext),
+    userContextLength: userContext ? userContext.length : 0,
     userAgent: req.headers.get("user-agent") || "unknown",
     ip: req.headers.get("x-forwarded-for") ? "forwarded" : "hidden",
   });

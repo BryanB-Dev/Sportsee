@@ -17,13 +17,11 @@ function createTimeoutSignal(ms) {
 }
 
 function mapError(err) {
-  if (err?.name === "AbortError") {
-    return new Error("Le serveur met trop de temps à répondre.");
-  }
-  const msg = String(err?.message || err);
-  if (/Failed to fetch/i.test(msg)) {
-    return new Error("Impossible de contacter le serveur. Vérifiez qu'il est démarré.");
-  }
+  if (err?.name === "AbortError") return new Error("Le serveur met trop de temps à répondre.");
+  const msg = String(err?.message || err || "");
+  if (/Failed to fetch/i.test(msg)) return new Error("Impossible de contacter le serveur. Vérifiez qu'il est démarré.");
+  // Propager le message serveur (API key manquante, rate-limit, upstream, etc.)
+  if (msg) return new Error(msg);
   return new Error("Une erreur est survenue lors du chat.");
 }
 

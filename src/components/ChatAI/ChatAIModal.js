@@ -6,6 +6,7 @@ import { sendChat } from "@/services/chatService";
 import { useAuth } from "@/contexts/AuthContext";
 import { useData } from "@/contexts/DataContext";
 import { buildUserContext } from "@/utils/chatDataFormatter";
+import { validateAIResponse, generateHonestFallback } from "@/utils/aiResponseValidator";
 import MarkdownMessage from "./MarkdownMessage";
 
 export default function ChatAIModal({ open, onClose }) {
@@ -72,11 +73,26 @@ export default function ChatAIModal({ open, onClose }) {
   const doSend = useCallback(async () => {
     const text = input.trim();
     if (!text || loading) return;
+    
+    // Avertir si l'utilisateur demande une explication sur les graphiques mais les données ne sont pas chargées
+    const askingAboutGraphics = /graphique|km|bpm|distance|cardiaque|performance|activit/i.test(text);
+    const askingBpm = /bpm|cardiaque|rythme/i.test(text);
+    if (askingAboutGraphics && (!activity || activity.length === 0)) {
+      setMessages((prev) => [...prev, 
+        { role: "user", content: text },
+        { role: "assistant", content: "⏳ Données en cours de chargement...\n\nMes données d'activité sont toujours en train de se charger. Réessayez dans quelques secondes pour une réponse plus précise sur vos graphiques.\n\nEn attendant, je peux répondre à d'autres questions sur l'entraînement en général !" }
+      ]);
+      setInput("");
+      return;
+    }
+    
     setLoading(true);
-    setMessages((prev) => [...prev, { role: "user", content: text }].slice(-20));
+    setMessages((prev) => [...prev, { role: "user", content: text }]);
     setInput("");
     try {
-      const ctx = messages.concat([{ role: "user", content: text }]);
+      // Limiter à 50 messages max (25 échanges) pour rester dans les limites de tokens de l'API
+      // Garder toujours le contexte (premier système) et les messages récents
+      const ctx = [...messages, { role: "user", content: text }].slice(-50);
       
       // Inclure le contexte utilisateur uniquement pour le premier message
       const options = { messages: ctx };
@@ -85,14 +101,57 @@ export default function ChatAIModal({ open, onClose }) {
         setContextSent(true);
       }
       
+      // If the user used rude language, include a short system override asking the assistant to be brief and not to follow up
+      const rude = /\b(tg|ta gueule|putain|merde|connard|salope)\b/i.test(text);
+      if (rude) {
+        options.messages = [...(options.messages || []), { role: 'system', content: "Réponds brièvement et poliment ; ne relance pas et n'offre pas de conseils non sollicités." }];
+      }
+
       const { reply } = await sendChat(options);
-      setMessages((prev) => [...prev, { role: "assistant", content: reply || "(pas de réponse)" }]);
+      if (!reply) {
+        throw new Error("Pas de réponse de l'API");
+      }
+      
+      // Valider la réponse contre les données réelles si l'utilisateur demande une explication de graphique
+      let finalReply = reply;
+      if (askingAboutGraphics && activity && activity.length > 0) {
+        const validation = validateAIResponse(reply, activity);
+        if (!validation.valid) {
+          // Détecter si la question est une demande BPM courte pour renvoyer une réponse concise
+          const shortBpmQuestion = askingBpm && (/^\s*(?:quels?|quel|quelle|quelles|as-tu|donne|quelle est)\b.*\b(bpm|rythme|cardiaque)/i.test(text) || text.trim().split(/\s+/).length <= 5);
+          // Remplacer par une réponse honnête basée sur les vraies données
+          finalReply = generateHonestFallback(activity, {
+            reason: "",
+            focus: askingBpm ? "bpm" : "general",
+            short: shortBpmQuestion,
+          });
+        }
+      }
+
+      // Post-process reply: remove unsolicited 'Prochaine étape' / 'Conseils' blocks
+      const askedForPlan = /plan|prochaine\s+étape|prochaine\s+etape|que faire|exemple de plan/i.test(text);
+      const askedForAdvice = /conseil|conseils|que faire|comment faire|plan/i.test(text);
+      if (!askedForPlan && /prochaine\s+étape|prochaines\s+étapes/i.test(finalReply)) {
+        // strip the 'Prochaine étape(s)' section and anything after it
+        finalReply = finalReply.replace(/\n?\s*Prochaine étape[s\s:]*[\s\S]*$/i, '').trim();
+      }
+      if (!askedForAdvice && /\*\*Conseils ?:?\*\*/i.test(finalReply)) {
+        // remove the Advice section
+        finalReply = finalReply.replace(/\n?\s*\*\*Conseils[\s\S]*$/i, '').trim();
+      }
+
+      // Remove emojis when present (prompt forbids emojis)
+      // Simple regex to remove common emoji ranges
+      finalReply = finalReply.replace(/[\u231A-\u32FF\uD83C-\uDBFF\uDC00-\uDFFF\u2600-\u27BF]/g, '').trim();
+      
+      setMessages((prev) => [...prev, { role: "assistant", content: finalReply }]);
     } catch (e) {
-      setMessages((prev) => [...prev, { role: "assistant", content: "Désolé, je n'ai pas pu répondre." }]);
+      console.error("[Chat] Erreur:", e);
+      setMessages((prev) => [...prev, { role: "assistant", content: "Désolé, je n'ai pas pu répondre. Erreur: " + (e?.message || "inconnue") }]);
     } finally {
       setLoading(false);
     }
-  }, [input, loading, messages, contextSent, userContext]);
+  }, [input, loading, messages, contextSent, userContext, activity]);
 
   const onKeyDown = useCallback((e) => {
     if (e.key === "Enter" && !e.shiftKey) {

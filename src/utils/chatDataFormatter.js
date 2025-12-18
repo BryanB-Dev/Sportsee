@@ -78,26 +78,42 @@ export function formatPerformanceMetrics(activities) {
     return "Aucune métrique de performance disponible.";
   }
 
-  // ===== DONNÉES DU GRAPHIQUE KM (4 dernières semaines) =====
+  // ===== DONNÉES DU GRAPHIQUE KM (4 dernières semaines complètes) =====
   const today = new Date();
-  const fourWeeksAgo = new Date(today);
-  fourWeeksAgo.setDate(fourWeeksAgo.getDate() - 28);
+  today.setHours(0, 0, 0, 0);
+  const currentDayOfWeek = today.getDay();
+  const daysSinceMonday = currentDayOfWeek === 0 ? 6 : currentDayOfWeek - 1;
+  
+  // Lundi de cette semaine
+  const mondayThisWeek = new Date(today);
+  mondayThisWeek.setDate(today.getDate() - daysSinceMonday);
+  
+  // Lundi de 4 semaines avant
+  const mondayFourWeeksAgo = new Date(mondayThisWeek);
+  mondayFourWeeksAgo.setDate(mondayThisWeek.getDate() - 28);
+  
+  // Dimanche de la semaine avant cette semaine
+  const sundayLastWeek = new Date(mondayThisWeek);
+  sundayLastWeek.setDate(mondayThisWeek.getDate() - 1);
   
   const last4WeeksData = activities.filter(session => {
-    const sessionDate = new Date(session.date);
-    return sessionDate >= fourWeeksAgo && sessionDate <= today;
+    // Parser la date sans conversion UTC
+    const [year, month, day] = session.date.split('-').map(Number);
+    const sessionDate = new Date(year, month - 1, day);
+    return sessionDate >= mondayFourWeeksAgo && sessionDate <= sundayLastWeek;
   });
   
   // Grouper par semaine comme dans le graphique KM
   const weeklyData = [];
   for (let week = 0; week < 4; week++) {
-    const weekStart = new Date(fourWeeksAgo);
-    weekStart.setDate(weekStart.getDate() + week * 7);
+    const weekStart = new Date(mondayFourWeeksAgo);
+    weekStart.setDate(mondayFourWeeksAgo.getDate() + week * 7);
     const weekEnd = new Date(weekStart);
     weekEnd.setDate(weekEnd.getDate() + 6);
     
     const weekData = last4WeeksData.filter(session => {
-      const sessionDate = new Date(session.date);
+      const [year, month, day] = session.date.split('-').map(Number);
+      const sessionDate = new Date(year, month - 1, day);
       return sessionDate >= weekStart && sessionDate <= weekEnd;
     });
     
@@ -110,17 +126,9 @@ export function formatPerformanceMetrics(activities) {
   }
 
   // ===== DONNÉES DU GRAPHIQUE BPM (semaine courante) =====
-  today.setHours(0, 0, 0, 0);
-  const currentDayOfWeek = today.getDay();
-  const daysSinceMonday = currentDayOfWeek === 0 ? 6 : currentDayOfWeek - 1;
-  
-  const mondayThisWeek = new Date(today);
-  mondayThisWeek.setDate(today.getDate() - daysSinceMonday);
-  
+  const dayNames = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
   const sundayThisWeek = new Date(mondayThisWeek);
   sundayThisWeek.setDate(mondayThisWeek.getDate() + 6);
-
-  const dayNames = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
   const formatLocalDate = (date) => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -179,12 +187,12 @@ export function formatPerformanceMetrics(activities) {
  * @param {Object} params.user - Utilisateur
  * @param {Object} params.statistics - Statistiques
  * @param {Array} params.activities - Activités
- * @returns {string} Contexte formaté pour l'IA
+ * @returns {string} Contexte formaté pour l'IA (jamais null)
  */
 export function buildUserContext({ user, statistics, activities }) {
   const sections = [];
 
-  // Profil utilisateur
+  // Profil utilisateur (toujours inclure le nom au moins)
   const profile = formatUserProfile(user, statistics);
   if (profile && !profile.includes("non disponible")) {
     sections.push(profile);
@@ -199,16 +207,20 @@ export function buildUserContext({ user, statistics, activities }) {
     if (level) {
       sections.push(`Niveau estimé: ${level}`);
     }
+  } else {
+    // Informer que les données se chargent ou ne sont pas disponibles
+    sections.push("⚠️ Données d'activité: Chargement en cours ou aucune donnée disponible pour le moment.");
   }
 
-  if (sections.length === 0) {
-    return null; // Pas de contexte à ajouter
-  }
+  // Toujours retourner un contexte, même minimal
+  const context = sections.length > 0 
+    ? sections.join('\n\n')
+    : "Données utilisateur chargement en cours...";
 
   return `[DONNÉES UTILISATEUR SPORTSEE]
-${sections.join('\n\n')}
+${context}
 
-Ces données sont fournies automatiquement pour enrichir tes réponses. Utilise-les uniquement si elles sont pertinentes pour la question posée. Ne mentionne pas ces données si l'utilisateur pose une question générale sans rapport avec ses statistiques personnelles.`;
+Ces données sont fournies automatiquement pour enrichir tes réponses. Si les données manquent, adapte ta réponse en consequence.`;
 }
 
 /**
