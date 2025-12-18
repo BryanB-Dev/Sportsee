@@ -19,6 +19,15 @@ import ChatAIModal from '../../components/ChatAI/ChatAIModal';
 // Import du CSS Module
 import styles from './dashboard.module.css';
 
+const alignToMonday = (date) => {
+  const monday = new Date(date);
+  const day = monday.getDay();
+  const offset = day === 0 ? -6 : 1 - day;
+  monday.setDate(monday.getDate() + offset);
+  monday.setHours(0, 0, 0, 0);
+  return monday;
+};
+
 export default function Dashboard() {
   const { user, isAuthenticated, logout, isLoading: authLoading } = useAuth();
   const { metrics, isLoading: dataLoading, hasErrors } = useDashboardMetrics();
@@ -107,41 +116,38 @@ export default function Dashboard() {
   // Données pour le graphique des kilomètres (basées sur les vraies données d'activité)
   const kilometersData = activity && activity.length > 0
     ? (() => {
-        // Filtrer par date : 4 dernières semaines à partir d'aujourd'hui
         const today = new Date();
-        const fourWeeksAgo = new Date(today);
+        today.setHours(0, 0, 0, 0);
+        const fourWeeksAgo = new Date(alignToMonday(today));
         fourWeeksAgo.setDate(fourWeeksAgo.getDate() - 28);
-        
-        const last4WeeksData = activity.filter(session => {
-          const sessionDate = new Date(session.date);
-          return sessionDate >= fourWeeksAgo && sessionDate <= today;
-        });
-        
-        // Grouper par semaine (à partir de fourWeeksAgo)
-        const weeklyData = [];
+
+        const dayBuckets = [];
         for (let week = 0; week < 4; week++) {
           const weekStart = new Date(fourWeeksAgo);
           weekStart.setDate(weekStart.getDate() + week * 7);
           const weekEnd = new Date(weekStart);
           weekEnd.setDate(weekEnd.getDate() + 6);
-          
-          const weekData = last4WeeksData.filter(session => {
+
+          const weekData = activity.filter(session => {
             const sessionDate = new Date(session.date);
+            sessionDate.setHours(0, 0, 0, 0);
             return sessionDate >= weekStart && sessionDate <= weekEnd;
           });
-          
+
           const totalKm = weekData.reduce((sum, session) => sum + session.distance, 0);
-          weeklyData.push({ day: `S${week + 1}`, value: parseFloat(totalKm.toFixed(1)) });
+          dayBuckets.push({ day: `S${week + 1}`, value: parseFloat(totalKm.toFixed(1)) });
         }
-        
-        return weeklyData;
+
+        return dayBuckets;
       })()
-    : [
-        { day: 'S1', value: parseFloat((weeklyDistance * 0.6).toFixed(1)) },
-        { day: 'S2', value: parseFloat((weeklyDistance * 1.2).toFixed(1)) },
-        { day: 'S3', value: parseFloat((weeklyDistance * 0.8).toFixed(1)) },
-        { day: 'S4', value: parseFloat((weeklyDistance).toFixed(1)) }
-      ];
+    : chartsLoading
+      ? []
+      : [
+          { day: 'S1', value: parseFloat((weeklyDistance * 0.6).toFixed(1)) },
+          { day: 'S2', value: parseFloat((weeklyDistance * 1.2).toFixed(1)) },
+          { day: 'S3', value: parseFloat((weeklyDistance * 0.8).toFixed(1)) },
+          { day: 'S4', value: parseFloat((weeklyDistance).toFixed(1)) }
+        ];
 
   // Données pour le graphique BPM (semaine en cours : lundi à dimanche)
   const heartRateData = (() => {
