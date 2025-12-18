@@ -164,6 +164,13 @@ export const mockUserActivity = {
       duration: 36,
       heartRate: { min: 144, max: 178, average: 164 },
       caloriesBurned: 390
+    },
+    {
+      date: '2025-12-07',
+      distance: 3.5,
+      duration: 25,
+      heartRate: { min: 121, max: 145, average: 132 },
+      caloriesBurned: 185
     }
   ],
   'user789': [

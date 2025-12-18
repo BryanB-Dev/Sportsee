@@ -14,21 +14,25 @@ export function formatRecentActivities(activities, limit = 10) {
     return "Aucune donnée d'activité disponible.";
   }
 
-  const recentActivities = activities.slice(-limit);
-  const formattedActivities = recentActivities.map((activity, index) => {
-    const date = new Date(activity.date).toLocaleDateString('fr-FR', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric'
-    });
-    
-    // Extraire la fréquence cardiaque moyenne si c'est un objet
-    const heartRate = activity.heartRate?.average || activity.heartRate || 'N/A';
-    
-    return `${index + 1}. ${date}: ${activity.distance || 0}km parcourus, ${activity.duration || 0}min d'effort, fréquence cardiaque moyenne ${heartRate} bpm`;
+  // Filtrer les activités pour ne garder que celles avec une date passée ou actuelle
+  // NOTE: Pour les données mockées avec dates futures, on garde toutes les activités
+  const currentDate = new Date();
+  const validActivities = activities.filter(activity => {
+    const activityDate = new Date(activity.date);
+    // Pour le développement, accepter les dates futures (mock data 2025)
+    return activityDate <= currentDate || activity.date.startsWith('2025');
+  });
+
+  if (validActivities.length === 0) {
+    return "Aucune donnée d'activité passée disponible.";
+  }
+
+  const recentActivities = validActivities.slice(-limit);
+  const formattedActivities = recentActivities.map(activity => {
+    return `${activity.date}: ${activity.distance}km, ${activity.duration}min, ${activity.heartRate?.average || activity.heartRate} BPM`;
   }).join('\n');
 
-  return `Dernières activités (${recentActivities.length} séances):\n${formattedActivities}`;
+  return `Activités récentes:\n${formattedActivities}`;
 }
 
 /**
@@ -43,6 +47,14 @@ export function formatUserProfile(user, statistics) {
   }
 
   const parts = [];
+  
+  // Date actuelle
+  const currentDate = new Date().toLocaleDateString('fr-FR', {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric'
+  });
+  parts.push(`Date actuelle: ${currentDate}`);
   
   // Informations de base (sans données sensibles)
   if (user.firstName) {
@@ -217,10 +229,11 @@ export function buildUserContext({ user, statistics, activities }) {
     ? sections.join('\n\n')
     : "Données utilisateur chargement en cours...";
 
-  return `[DONNÉES UTILISATEUR SPORTSEE]
+  return `[DONNÉES UTILISATEUR SPORTSEE - À UTILISER IMPÉRATIVEMENT]
+📅 DATE ACTUELLE: 2025-12-18
 ${context}
 
-Ces données sont fournies automatiquement pour enrichir tes réponses. Si les données manquent, adapte ta réponse en consequence.`;
+⚠️ INSTRUCTION: Utilise UNIQUEMENT ces données pour répondre. Ne invente rien.`;
 }
 
 /**

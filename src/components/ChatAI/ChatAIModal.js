@@ -16,7 +16,6 @@ export default function ChatAIModal({ open, onClose }) {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
-  const [contextSent, setContextSent] = useState(false);
   const listRef = useRef(null);
 
   // Construire le contexte utilisateur une seule fois
@@ -37,7 +36,6 @@ export default function ChatAIModal({ open, onClose }) {
     setIsClosing(true);
     setTimeout(() => {
       setIsClosing(false);
-      setContextSent(false); // Reset pour la prochaine ouverture
       onClose?.();
     }, 300); // Match animation duration
   }, [onClose]);
@@ -94,11 +92,10 @@ export default function ChatAIModal({ open, onClose }) {
       // Garder toujours le contexte (premier système) et les messages récents
       const ctx = [...messages, { role: "user", content: text }].slice(-50);
       
-      // Inclure le contexte utilisateur uniquement pour le premier message
+      // Inclure le contexte utilisateur avec CHAQUE message pour maintenir la cohérence
       const options = { messages: ctx };
-      if (!contextSent && userContext) {
+      if (userContext) {
         options.userContext = userContext;
-        setContextSent(true);
       }
       
       // If the user used rude language, include a short system override asking the assistant to be brief and not to follow up
@@ -151,7 +148,7 @@ export default function ChatAIModal({ open, onClose }) {
     } finally {
       setLoading(false);
     }
-  }, [input, loading, messages, contextSent, userContext, activity]);
+  }, [input, loading, messages, userContext, activity]);
 
   const onKeyDown = useCallback((e) => {
     if (e.key === "Enter" && !e.shiftKey) {

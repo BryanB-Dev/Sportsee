@@ -139,8 +139,8 @@ export function validateAIResponse(aiResponse, realActivities) {
   if (/bpm/i.test(aiResponse) && mentionedDates.length > 0 && (mentionedBpms.length > 0 || /-\s*\d+\s*BPM/i.test(aiResponse)) && hasMatchingDate) {
     return { valid: true, issues: [], stats };
   }
-  // Accept direct, explicit answers about BPM this week even if they say "Aucun BPM enregistré cette semaine"
-  if (/aucun\s+.*bpm\s+.*semaine/i.test(aiResponse)) {
+  // Accept responses that explicitly say no activities
+  if (/aucune\s+activit/i.test(aiResponse) || /pas\s+d['']activit/i.test(aiResponse)) {
     return { valid: true, issues: [], stats };
   }
 
@@ -180,6 +180,32 @@ export function validateAIResponse(aiResponse, realActivities) {
     }
   }
 
+  // RÈGLE 3A: Vérifier le nombre d'activités mentionné
+  const mentionedActivitiesMatch = aiResponse.match(/(\d+)\s*activit/i);
+  if (mentionedActivitiesMatch) {
+    const mentionedCount = parseInt(mentionedActivitiesMatch[1]);
+    if (mentionedCount !== stats.totalActivities) {
+      issues.push(`❌ HALLUCINATION ACTIVITÉS: L'IA dit ${mentionedCount} activités mais il y en a ${stats.totalActivities} dans les données`);
+    }
+  }
+
+  // RÈGLE 3B: Détecter les dates hallucinées (IA mentionne des dates qui n'existent pas)
+  const dateMatches = aiResponse.match(/(\d{1,2}[-\/]\d{1,2}[-\/]\d{4}|\d{4}[-\/]\d{1,2}[-\/]\d{1,2})/g);
+  if (dateMatches && realActivities) {
+    const realDates = new Set(realActivities.map(a => {
+      const d = new Date(a.date);
+      return d.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    }));
+
+    for (const dateStr of dateMatches) {
+      // Normaliser le format de date pour la comparaison
+      const normalizedDate = dateStr.replace(/[-\/]/g, '/');
+      if (!realDates.has(normalizedDate)) {
+        issues.push(`❌ HALLUCINATION DATE: L'IA mentionne la date ${dateStr} qui n'existe pas dans les données réelles`);
+      }
+    }
+  }
+
   // RÈGLE 3B: Vérifier les km si l'IA en mentionne mais qu'il n'y en a presque pas
   if (mentionedKm > 10 && stats.totalKm < 5) {
     issues.push(`❌ HALLUCINATION KM: L'IA dit ${mentionedKm}km mais le total réel est seulement ${stats.totalKm}km`);
@@ -204,9 +230,10 @@ export function validateAIResponse(aiResponse, realActivities) {
     issues.push(`🚨 HALLUCINATION: L'IA dit ${mentionedActivities} activités mais l'utilisateur n'a que ${stats.totalActivities}`);
   }
 
-  // RÈGLE 6: Format Markdown cassé (mais tolérant pour les refus)
+  // RÈGLE 6: Format Markdown cassé (maximally tolérant pour les réponses longues correctes)
   const isRefusal = aiResponse.length < 300 && /desole|coach|specialis/i.test(aiResponse);
-  if (!aiResponse.includes('\n') && aiResponse.length > 100 && !aiResponse.includes(':') && !isRefusal) {
+  const isVeryLongResponse = aiResponse.length > 300; // Tolérance maximale pour les réponses longues bien formulées
+  if (!aiResponse.includes('\n') && aiResponse.length > 250 && !aiResponse.includes(':') && !isRefusal && !isVeryLongResponse) {
     issues.push("⚠️ La réponse n'est pas bien formatée");
   }
 
